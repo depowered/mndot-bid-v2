@@ -13,28 +13,22 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python.linting.enabled": true,
-                "python.linting.pylintEnabled": true,
-                "editor.formatOnSaveMode": "file",
-                "editor.formatOnSave": true,
-                "python.formatting.provider": "black",
-                "python.analysis.typeCheckingMode": "strict",
-                "editor.codeActionsOnSave": {
-                    "source.organizeImports": true
-                },
-                "python.testing.pytestArgs": [
-                    "tests"
+                "ruff.path": [
+                    "/workspaces/mndot-bid-v2/backend/.venv/bin/ruff"
                 ],
-                "python.testing.unittestEnabled": false,
-                "python.testing.pytestEnabled": true
+                "[python]": {
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": true
+                    }
+                },
+                "python.formatting.provider": "black",
+                "python.linting.pylintEnabled": false
             },
             "extensions": [
                 "ms-python.python",
                 "ms-python.black-formatter",
-                "ms-python.mypy-type-checker",
-                "ms-python.isort",
-                "ms-python.pylint",
-                "njpwerner.autodocstring"
+                "charliermarsh.ruff"
             ]
         }
     }
