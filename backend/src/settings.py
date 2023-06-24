@@ -8,3 +8,8 @@ DATA_DIR = PROJECT_DIR / "data/"
 
 class Settings(BaseSettings):
     data_dir: Path = DATA_DIR
+    raw_abstract_dir = data_dir / "raw/abstracts/"
+
+    mndot_abstracts_app: str = (
+        "https://transport.dot.state.mn.us/PostLetting/Abstract.aspx"
+    )
