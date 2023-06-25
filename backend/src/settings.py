@@ -13,3 +13,6 @@ class Settings(BaseSettings):
     mndot_abstracts_app: str = (
         "https://transport.dot.state.mn.us/PostLetting/Abstract.aspx"
     )
+    download_abstract_url: str = (
+        "https://transport.dot.state.mn.us/PostLetting/abstractCSV.aspx"
+    )

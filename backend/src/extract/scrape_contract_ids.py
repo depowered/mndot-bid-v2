@@ -4,6 +4,7 @@ from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
 from httpx import HTTPStatusError
+from loguru import logger
 
 from src.settings import Settings
 
@@ -17,14 +18,15 @@ def _prepare_payload(year: int) -> dict:
     return payload
 
 
-def scrape_contract_ids(settings: Settings, year: int) -> set[int]:
+def scrape_contract_ids(settings: Settings, year: int) -> set[int] | None:
+    payload = _prepare_payload(year)
+    url = settings.mndot_abstracts_app
     try:
-        payload = _prepare_payload(year)
-        url = settings.mndot_abstracts_app
         r = httpx.post(url, data=payload)
         r.raise_for_status()
-    except HTTPStatusError as e:
-        raise e
+    except HTTPStatusError:
+        logger.warning(f"SCRAPE: Scraping failed. Status code: {r.status_code}")
+        return
 
     contract_ids: set[int] = set()
 
@@ -40,8 +42,3 @@ def scrape_contract_ids(settings: Settings, year: int) -> set[int]:
         contract_ids.add(int(cells[2].string))
 
     return contract_ids
-
-
-if __name__ == "__main__":
-    settings = Settings()
-    print(scrape_contract_ids(settings, 2023))
