@@ -16,6 +16,7 @@ def _download_abstract_csv(settings: Settings, contract_id: int) -> None:
         )
         return
 
+    settings.raw_abstract_dir.mkdir(parents=True, exist_ok=True)
     filepath = settings.raw_abstract_dir / f"{contract_id}.csv"
     with open(filepath, "w") as f:
         f.write(r.text)
@@ -29,11 +30,14 @@ def _existing_abstracts(settings: Settings) -> set[int]:
 def download_abstract_csvs(settings: Settings, contract_ids: set[int]) -> None:
     # skip abstracts that are already downloaded
     download = contract_ids - _existing_abstracts(settings)
-    if not download:
+    count = len(download)
+    if count < 1:
         logger.info("DOWNLOAD: Abstracts already downloaded.")
         return
 
-    logger.info(f"DOWNLOAD: Downloading {len(download)} abstracts")
-    for contract_id in download:
-        logger.info(f"DOWNLOAD: Downloading abstract: {contract_id}")
+    logger.info(f"DOWNLOAD: Downloading {count} abstracts")
+    for idx, contract_id in enumerate(download):
+        logger.info(
+            f"DOWNLOAD: Downloading abstract: {contract_id} ({idx + 1} of {count})"
+        )
         _download_abstract_csv(settings, contract_id)
