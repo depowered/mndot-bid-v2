@@ -8,8 +8,11 @@ DATA_DIR = PROJECT_DIR / "data/"
 
 class Settings(BaseSettings):
     data_dir: Path = DATA_DIR
+
     raw_abstract_dir = data_dir / "raw/abstracts/"
     split_abstract_dir = data_dir / "interim/split_abstracts/"
+    clean_abstract_dir = data_dir / "interim/clean_abstracts/"
+
     raw_item_list_dir = data_dir / "raw/item_lists/"
 
     mndot_abstracts_app: HttpUrl = (
