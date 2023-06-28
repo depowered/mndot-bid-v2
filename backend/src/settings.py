@@ -3,11 +3,11 @@ from pathlib import Path
 from pydantic import BaseSettings, HttpUrl
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = PROJECT_DIR / "data/"
 
 
 class Settings(BaseSettings):
-    data_dir: Path = DATA_DIR
+    data_dir: Path = PROJECT_DIR / "data/"
+    db: Path = data_dir / "mndot-bid-dev.duckdb"
 
     raw_abstract_dir = data_dir / "raw/abstracts/"
     split_abstract_dir = data_dir / "interim/split_abstracts/"
