@@ -28,7 +28,8 @@
             "extensions": [
                 "ms-python.python",
                 "ms-python.black-formatter",
-                "charliermarsh.ruff"
+                "charliermarsh.ruff",
+                "mechatroner.rainbow-csv"
             ]
         }
     }
