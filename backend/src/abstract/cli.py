@@ -1,7 +1,7 @@
 import click
 
 from src.abstract.pipeline import pipeline
-from src.abstract.stages import download, scrape
+from src.abstract.stages import download, scrape, split
 from src.settings import Settings
 
 
@@ -32,3 +32,11 @@ def run_download() -> None:
     settings = Settings()
     if not download.done():
         download.run(settings)
+
+
+@abstract.command()
+def run_split() -> None:
+    """Runs the split stage"""
+    settings = Settings()
+    if not split.done():
+        split.run(settings)
