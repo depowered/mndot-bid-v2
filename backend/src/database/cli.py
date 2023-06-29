@@ -1,10 +1,10 @@
-import sys
 import os
+import sys
 
 import click
 from loguru import logger
 
-from src.db.init_db import init_db
+from src.database import db
 from src.settings import Settings
 
 
@@ -20,7 +20,7 @@ def create() -> None:
     if settings.db.exists():
         logger.warning(f"{settings.db.name} already exists. Exiting...")
         sys.exit(1)
-    init_db(settings)
+    db.init_db()
     logger.info(f"Created database: {settings.db}")
 
 

@@ -13,9 +13,6 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "ruff.path": [
-                    "/workspaces/mndot-bid-v2/backend/.venv/bin/ruff"
-                ],
                 "[python]": {
                     "editor.formatOnSave": true,
                     "editor.codeActionsOnSave": {
