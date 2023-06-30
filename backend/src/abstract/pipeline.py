@@ -9,7 +9,7 @@ def pipeline(settings: Settings, year: int) -> None:
         download.run(settings)
 
     if not split.done():
-        split.run()
+        split.run(settings)
 
     if not clean.done():
-        clean.run()
+        clean.run(settings)
