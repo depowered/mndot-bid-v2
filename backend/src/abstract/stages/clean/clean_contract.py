@@ -21,7 +21,11 @@ def _validate_input_df(df: pl.DataFrame) -> None:
         "County",
     }
     validate_columns(df, required)
-    validate_no_missing_values(df, required)
+
+
+def _validate_output_df(df: pl.DataFrame) -> None:
+    """Raises a ValidationError if the provided DataFrame does pass validation checks."""
+    validate_no_missing_values(df)
 
 
 def _clean_contract(csv: Path) -> pl.DataFrame:
@@ -30,7 +34,7 @@ def _clean_contract(csv: Path) -> pl.DataFrame:
     df = pl.read_csv(csv, infer_schema_length=0)
     _validate_input_df(df)
 
-    return df.select(
+    df_clean = df.select(
         [
             pl.col("Contract Id").cast(pl.Int64).alias("contract_id"),
             pl.col("Letting Date")
@@ -45,6 +49,8 @@ def _clean_contract(csv: Path) -> pl.DataFrame:
             pl.col("County").str.strip().str.to_uppercase().alias("county"),
         ]
     )
+    _validate_output_df(df_clean)
+    return df_clean
 
 
 def clean_contract_csv(settings: Settings, contract_id: int) -> None:

@@ -24,7 +24,11 @@ def _validate_input_df(df: pl.DataFrame) -> None:
         "Bidder Amount",
     }
     validate_columns(df, required)
-    validate_no_missing_values(df, required)
+
+
+def _validate_output_df(df: pl.DataFrame) -> None:
+    """Raises a ValidationError if the provided DataFrame does pass validation checks."""
+    validate_no_missing_values(df)
 
 
 def _clean_bidder(csv: Path, contract_id: int) -> pl.DataFrame:
@@ -44,6 +48,7 @@ def _clean_bidder(csv: Path, contract_id: int) -> pl.DataFrame:
             .alias("bid_total_cents"),
         ]
     )
+    _validate_output_df(df_clean)
     return df_clean
 
 

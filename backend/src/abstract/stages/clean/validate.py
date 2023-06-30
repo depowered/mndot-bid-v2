@@ -13,10 +13,9 @@ def validate_columns(df: pl.DataFrame, required: set[str]) -> None:
         raise ValidationError(f"Dataframe is missing columns: {missing}")
 
 
-def validate_no_missing_values(df: pl.DataFrame, required: set[str]) -> None:
+def validate_no_missing_values(df: pl.DataFrame) -> None:
     """Raises a ValidationError if the required columns contains any NULL values."""
-    dropped = df.select(pl.col(required).drop_nulls().drop_nans())
+    dropped = df.select(pl.all().drop_nulls().drop_nans())
     missing = df.shape[0] - dropped.shape[0]
     if missing != 0:
-        raise ValidationError(f"{missing} rows are missing values in required columns")
-
+        raise ValidationError(f"{missing} rows are missing values")

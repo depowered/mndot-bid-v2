@@ -29,7 +29,11 @@ def _validate_input_df(df: pl.DataFrame) -> None:
         "Engineers (Unit Price)",
     }
     validate_columns(df, required)
-    validate_no_missing_values(df, required)
+
+
+def _validate_output_df(df: pl.DataFrame) -> None:
+    """Raises a ValidationError if the provided DataFrame does pass validation checks."""
+    validate_no_missing_values(df)
 
 
 def _clean_bid(csv: Path) -> pl.DataFrame:
@@ -72,12 +76,14 @@ def _clean_bid(csv: Path) -> pl.DataFrame:
         value_name="unit_price_cents",
     )
 
-    return df_melt.select(
+    df_output = df_melt.select(
         [
             pl.all().exclude("bidder_name"),
             pl.col("bidder_name").str.replace("\(Unit Price\)", "").str.strip(),
         ]
     )
+    _validate_output_df(df_output)
+    return df_output
 
 
 def clean_bid_csv(settings: Settings, contract_id: int) -> None:
