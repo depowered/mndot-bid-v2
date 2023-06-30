@@ -1,4 +1,4 @@
-from src.abstract.stages import clean, download, scrape, split
+from src.abstract.stages import clean, download, load, scrape, split
 from src.settings import Settings
 
 
@@ -13,3 +13,6 @@ def pipeline(settings: Settings, year: int) -> None:
 
     if not clean.done():
         clean.run(settings)
+
+    if not load.done():
+        load.run(settings)

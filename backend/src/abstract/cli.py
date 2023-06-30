@@ -1,7 +1,7 @@
 import click
 
 from src.abstract.pipeline import pipeline
-from src.abstract.stages import clean, download, scrape, split
+from src.abstract.stages import clean, download, load, scrape, split
 from src.settings import Settings
 
 
@@ -48,3 +48,11 @@ def run_clean() -> None:
     settings = Settings()
     if not clean.done():
         clean.run(settings)
+
+
+@abstract.command()
+def run_load() -> None:
+    """Runs the load stage"""
+    settings = Settings()
+    if not load.done():
+        load.run(settings)

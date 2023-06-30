@@ -15,6 +15,7 @@ def create_table(con: DuckDBPyConnection) -> None:
         download_stage status DEFAULT 'not run',
         split_stage status DEFAULT 'not run',
         clean_stage status DEFAULT 'not run',
+        load_stage status DEFAULT 'not run',
     )"""
     con.execute(query)
 
