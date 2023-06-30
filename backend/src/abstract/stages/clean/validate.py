@@ -18,4 +18,4 @@ def validate_no_missing_values(df: pl.DataFrame) -> None:
     dropped = df.select(pl.all().drop_nulls().drop_nans())
     missing = df.shape[0] - dropped.shape[0]
     if missing != 0:
-        raise ValidationError(f"{missing} rows are missing values")
+        raise ValidationError(f"Missing values in {len(missing)} row(s)")
