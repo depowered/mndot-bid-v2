@@ -40,6 +40,15 @@ def update_status(
     con.commit()
 
 
+def reset_stages(con: DuckDBPyConnection, stages: list[Stage]) -> None:
+    """Sets all records in provided stages to `Status.NOT_RUN`"""
+    for stage in stages:
+        query = f"UPDATE pipeline_status SET {stage} = $status"
+        params = {"status": Status.NOT_RUN}
+        con.execute(query, params)
+    con.commit()
+
+
 def get_ids_with_status(
     con: DuckDBPyConnection, stage: Stage, status: Status
 ) -> set[int]:
