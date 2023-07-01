@@ -10,10 +10,15 @@ from src.abstract.stages.clean.validate import (
 from src.settings import Settings
 
 
-def _cast_monitary_to_cents(value: str) -> int:
+def _cast_monitary_to_cents(s: pl.Series) -> pl.Series:
     """Cast a monitary string to int cents. Example: '$10.43' -> 1043"""
-    clean = value.strip().replace("$", "").replace(",", "")
-    return int(float(clean) * 100)
+    return (
+        s.str.strip()
+        .str.replace_all("\$", "")
+        .str.replace_all(",", "")
+        .cast(pl.Float32)
+        * 100
+    ).cast(pl.Int64)
 
 
 def _validate_input_df(df: pl.DataFrame) -> None:
@@ -52,11 +57,11 @@ def _clean_bid(csv: Path) -> pl.DataFrame:
             pl.col("ItemNumber").str.slice(offset=8, length=5).alias("item_code"),
             pl.col("ItemDescription")
             .str.strip()
-            .str.replace("''", '"')
+            .str.replace_all("''", '"')
             .alias("item_long_description"),
             pl.col("Quantity").cast(pl.Float32).alias("quantity"),
             pl.col("UnitName").str.strip().alias("unit_name"),
-            pl.col("^*(Unit Price).+$").apply(_cast_monitary_to_cents).cast(pl.Int64),
+            pl.col("^*(Unit Price).+$").map(_cast_monitary_to_cents),
         ]
     )
 

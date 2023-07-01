@@ -10,10 +10,15 @@ from src.abstract.stages.clean.validate import (
 from src.settings import Settings
 
 
-def _cast_monitary_to_cents(value: str) -> int:
+def _cast_monitary_to_cents(s: pl.Series) -> pl.Series:
     """Cast a monitary string to int cents. Example: '$10.43' -> 1043"""
-    clean = value.strip().replace("$", "").replace(",", "")
-    return int(float(clean) * 100)
+    return (
+        s.str.strip()
+        .str.replace_all("\$", "")
+        .str.replace_all(",", "")
+        .cast(pl.Float32)
+        * 100
+    ).cast(pl.Int64)
 
 
 def _validate_input_df(df: pl.DataFrame) -> None:
@@ -43,8 +48,7 @@ def _clean_bidder(csv: Path, contract_id: int) -> pl.DataFrame:
             pl.col("Bidder Number").cast(pl.Int64).alias("bidder_id"),
             pl.col("Bidder Name").str.strip().alias("bidder_name"),
             pl.col("Bidder Amount")
-            .apply(_cast_monitary_to_cents)
-            .cast(pl.Int64)
+            .map(_cast_monitary_to_cents)
             .alias("bid_total_cents"),
         ]
     )
