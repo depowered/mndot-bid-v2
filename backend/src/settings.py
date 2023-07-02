@@ -8,6 +8,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[1]
 class Settings(BaseSettings):
     data_dir: Path = PROJECT_DIR / "data/"
     db: Path = data_dir / "mndot-bid-dev.duckdb"
+    db_dump_dir: Path = data_dir / "db_dump/"
 
     raw_abstract_dir: Path = data_dir / "raw/abstracts/"
     split_abstract_dir: Path = data_dir / "interim/split_abstracts/"

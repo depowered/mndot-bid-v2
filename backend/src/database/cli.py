@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 import click
 from loguru import logger
@@ -33,3 +34,29 @@ def delete() -> None:
         sys.exit(1)
     os.remove(settings.db)
     logger.info(f"DELETED database: {settings.db}")
+
+
+@database.command()
+def dump() -> None:
+    """Dump all tables to parquet"""
+    settings = Settings()
+    if not settings.db.exists():
+        logger.warning(f"{settings.db.name} does not exist. Exiting...")
+        sys.exit(1)
+    db.dump_tables(output_dir=settings.db_dump_dir)
+    logger.info(f"DUMPED tables to: {settings.db_dump_dir}")
+
+
+@database.command()
+@click.argument(
+    "parquets", nargs=-1, required=True, type=click.Path(exists=True, path_type=Path)
+)
+def load(parquets: tuple[Path]) -> None:
+    """Load table from parquet"""
+    settings = Settings()
+    if not settings.db.exists():
+        logger.warning(f"{settings.db.name} does not exist. Exiting...")
+        sys.exit(1)
+    db.load_tables_from_dump(parquets)
+    tables = [p.stem for p in parquets]
+    logger.info(f"LOADED tables: {tables}")
