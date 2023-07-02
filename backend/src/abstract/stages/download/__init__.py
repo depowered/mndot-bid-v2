@@ -6,25 +6,25 @@ from src.abstract.stages.download.download_abstract import (
     DownloadError,
     download_abstract_csv,
 )
-from src.database import db, pipeline_status
+from src.database import abstract_pipeline, db
 from src.settings import Settings
 
 get_ids_to_download = partial(
-    pipeline_status.get_ids_with_status,
-    stage=pipeline_status.Stage.DOWNLOAD,
-    status=pipeline_status.Status.NOT_RUN,
+    abstract_pipeline.get_ids_with_status,
+    stage=abstract_pipeline.Stage.DOWNLOAD,
+    status=abstract_pipeline.Status.NOT_RUN,
 )
 
 set_download_status_to_complete = partial(
-    pipeline_status.update_status,
-    stage=pipeline_status.Stage.DOWNLOAD,
-    status=pipeline_status.Status.COMPLETE,
+    abstract_pipeline.update_status,
+    stage=abstract_pipeline.Stage.DOWNLOAD,
+    status=abstract_pipeline.Status.COMPLETE,
 )
 
 set_download_status_to_failed = partial(
-    pipeline_status.update_status,
-    stage=pipeline_status.Stage.DOWNLOAD,
-    status=pipeline_status.Status.FAILED,
+    abstract_pipeline.update_status,
+    stage=abstract_pipeline.Stage.DOWNLOAD,
+    status=abstract_pipeline.Status.FAILED,
 )
 
 

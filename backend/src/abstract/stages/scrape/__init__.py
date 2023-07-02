@@ -6,7 +6,7 @@ from src.abstract.stages.scrape.scrape_contract_ids import (
     ScrapeError,
     scrape_contract_ids,
 )
-from src.database import db, pipeline_status
+from src.database import abstract_pipeline, db
 from src.settings import Settings
 
 
@@ -21,4 +21,4 @@ def run(settings: Settings, year: int) -> None:
         sys.exit(1)
 
     logger.info("SCRAPE: Loading database")
-    pipeline_status.insert_new_records(con=db.get_db_con(), contract_ids=contract_ids)
+    abstract_pipeline.insert_new_records(con=db.get_db_con(), contract_ids=contract_ids)

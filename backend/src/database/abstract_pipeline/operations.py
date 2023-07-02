@@ -1,6 +1,6 @@
 from duckdb import DuckDBPyConnection
 
-from src.database.pipeline_status.enums import Stage, Status
+from src.database.abstract_pipeline.enums import Stage, Status
 
 
 def create_status_type(con: DuckDBPyConnection) -> None:
@@ -10,7 +10,7 @@ def create_status_type(con: DuckDBPyConnection) -> None:
 
 def create_table(con: DuckDBPyConnection) -> None:
     query = """
-    CREATE TABLE pipeline_status (
+    CREATE TABLE abstract_pipeline (
         contract_id INTEGER PRIMARY KEY,
         download_stage status DEFAULT 'not run',
         split_stage status DEFAULT 'not run',
@@ -21,7 +21,7 @@ def create_table(con: DuckDBPyConnection) -> None:
 
 
 def insert_new_records(con: DuckDBPyConnection, contract_ids: list[int]) -> None:
-    query = "INSERT OR IGNORE INTO pipeline_status( contract_id ) VALUES( ? )"
+    query = "INSERT OR IGNORE INTO abstract_pipeline( contract_id ) VALUES( ? )"
     params = [[id] for id in contract_ids]
     con.executemany(query, params)
     con.commit()
@@ -31,7 +31,7 @@ def update_status(
     con: DuckDBPyConnection, contract_id: int, stage: Stage, status: Status
 ) -> None:
     query = f"""
-        UPDATE pipeline_status
+        UPDATE abstract_pipeline
         SET {stage} = $status
         WHERE contract_id = $contract_id
     """
@@ -43,7 +43,7 @@ def update_status(
 def reset_stages(con: DuckDBPyConnection, stages: list[Stage]) -> None:
     """Sets all records in provided stages to `Status.NOT_RUN`"""
     for stage in stages:
-        query = f"UPDATE pipeline_status SET {stage} = $status"
+        query = f"UPDATE abstract_pipeline SET {stage} = $status"
         params = {"status": Status.NOT_RUN}
         con.execute(query, params)
     con.commit()
@@ -52,7 +52,7 @@ def reset_stages(con: DuckDBPyConnection, stages: list[Stage]) -> None:
 def get_ids_with_status(
     con: DuckDBPyConnection, stage: Stage, status: Status
 ) -> set[int]:
-    query = f"SELECT contract_id FROM pipeline_status WHERE {stage} = $status"
+    query = f"SELECT contract_id FROM abstract_pipeline WHERE {stage} = $status"
     params = {"status": status}
     records = con.execute(query, params).fetchall()
     return {row[0] for row in records}

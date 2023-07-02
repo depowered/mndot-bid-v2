@@ -2,7 +2,7 @@ import click
 
 from src.abstract.pipeline import pipeline
 from src.abstract.stages import clean, download, load, scrape, split
-from src.database import db, pipeline_status
+from src.database import abstract_pipeline, db
 from src.settings import Settings
 
 
@@ -91,11 +91,11 @@ def run_load() -> None:
 def reset_stages(download: bool, split: bool, clean: bool, load: bool) -> None:
     """Sets all records in provided stages to 'not run'"""
     stages = []
-    stages.append(pipeline_status.Stage.DOWNLOAD) if download else None
-    stages.append(pipeline_status.Stage.SPLIT) if split else None
-    stages.append(pipeline_status.Stage.CLEAN) if clean else None
-    stages.append(pipeline_status.Stage.LOAD) if load else None
+    stages.append(abstract_pipeline.Stage.DOWNLOAD) if download else None
+    stages.append(abstract_pipeline.Stage.SPLIT) if split else None
+    stages.append(abstract_pipeline.Stage.CLEAN) if clean else None
+    stages.append(abstract_pipeline.Stage.LOAD) if load else None
     if not stages:
         click.echo("No stages selected. See --help for options.")
         return
-    pipeline_status.reset_stages(db.get_db_con(), stages)
+    abstract_pipeline.reset_stages(db.get_db_con(), stages)

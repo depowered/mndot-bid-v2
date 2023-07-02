@@ -1,6 +1,6 @@
 CREATE TYPE status AS ENUM ('not run', 'complete', 'failed');
 
-CREATE TABLE pipeline_status (
+CREATE TABLE abstract_pipeline (
     contract_id INTEGER PRIMARY KEY,
     download_stage status DEFAULT 'not run',
     split_stage status DEFAULT 'not run',
@@ -8,7 +8,7 @@ CREATE TABLE pipeline_status (
 );
 
 INSERT INTO 
-    pipeline_status( contract_id, download_stage, split_stage, clean_stage ) 
+    abstract_pipeline ( contract_id, download_stage, split_stage, clean_stage ) 
 VALUES 
     (10, 'complete', 'complete', 'complete'),
     (20, 'complete', 'failed', 'not run'),

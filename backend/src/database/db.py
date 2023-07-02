@@ -1,7 +1,7 @@
 import duckdb
 from duckdb import DuckDBPyConnection
 
-from src.database import pipeline_status
+from src.database import abstract_pipeline
 from src.settings import Settings
 
 
@@ -13,5 +13,5 @@ def get_db_con() -> DuckDBPyConnection:
 def init_db() -> None:
     """Creates an empty duckdb database with tables and types defined in init_db.sql"""
     con = get_db_con()
-    pipeline_status.create_status_type(con)
-    pipeline_status.create_table(con)
+    abstract_pipeline.create_status_type(con)
+    abstract_pipeline.create_table(con)

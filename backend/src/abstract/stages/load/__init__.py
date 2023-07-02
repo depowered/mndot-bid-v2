@@ -7,37 +7,37 @@ from src.abstract.stages.load.load_tables import (
     load_raw_bids,
     load_raw_contracts,
 )
-from src.database import db, pipeline_status, raw_bidders, raw_bids, raw_contracts
+from src.database import abstract_pipeline, db, raw_bidders, raw_bids, raw_contracts
 from src.settings import Settings
 
 previous_stage_complete_ids = partial(
-    pipeline_status.get_ids_with_status,
-    stage=pipeline_status.Stage.CLEAN,
-    status=pipeline_status.Status.COMPLETE,
+    abstract_pipeline.get_ids_with_status,
+    stage=abstract_pipeline.Stage.CLEAN,
+    status=abstract_pipeline.Status.COMPLETE,
 )
 
 current_stage_not_run_ids = partial(
-    pipeline_status.get_ids_with_status,
-    stage=pipeline_status.Stage.LOAD,
-    status=pipeline_status.Status.NOT_RUN,
+    abstract_pipeline.get_ids_with_status,
+    stage=abstract_pipeline.Stage.LOAD,
+    status=abstract_pipeline.Status.NOT_RUN,
 )
 
 current_stage_failed_ids = partial(
-    pipeline_status.get_ids_with_status,
-    stage=pipeline_status.Stage.LOAD,
-    status=pipeline_status.Status.FAILED,
+    abstract_pipeline.get_ids_with_status,
+    stage=abstract_pipeline.Stage.LOAD,
+    status=abstract_pipeline.Status.FAILED,
 )
 
 set_load_status_to_complete = partial(
-    pipeline_status.update_status,
-    stage=pipeline_status.Stage.LOAD,
-    status=pipeline_status.Status.COMPLETE,
+    abstract_pipeline.update_status,
+    stage=abstract_pipeline.Stage.LOAD,
+    status=abstract_pipeline.Status.COMPLETE,
 )
 
 set_load_status_to_failed = partial(
-    pipeline_status.update_status,
-    stage=pipeline_status.Stage.LOAD,
-    status=pipeline_status.Status.FAILED,
+    abstract_pipeline.update_status,
+    stage=abstract_pipeline.Stage.LOAD,
+    status=abstract_pipeline.Status.FAILED,
 )
 
 
