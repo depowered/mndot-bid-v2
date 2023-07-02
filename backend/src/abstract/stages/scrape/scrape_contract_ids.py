@@ -12,16 +12,19 @@ class ScrapeError(BaseException):
     pass
 
 
-def _prepare_payload(year: int) -> dict:
+Payload = dict[str, str]
+
+
+def _prepare_payload(year: int) -> Payload:
     # Form data is copied from the request produced by naviating to the page in Firefox
     payload_json = Path(__file__).parent / "payload_abstract.json"
     with open(payload_json, "r") as f:
-        payload: dict = json.loads(f.read())
+        payload: Payload = json.loads(f.read())
     payload.update({"ctl00$MainContent$drpLettingYear": str(year)})
     return payload
 
 
-def _fetch_html(url: str, payload: dict) -> Response:
+def _fetch_html(url: str, payload: Payload) -> Response:
     try:
         r = httpx.post(url, data=payload)
         r.raise_for_status()
@@ -36,6 +39,11 @@ def _fetch_html(url: str, payload: dict) -> Response:
         raise ScrapeError("Request timed out") from e
 
 
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportGeneralTypeIssues=false
+# pyright: reportOptionalMemberAccess=false
+# pyright: reportUnknownArgumentType=false
 def _parse_html(r: Response) -> set[int]:
     contract_ids: set[int] = set()
     try:

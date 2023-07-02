@@ -35,7 +35,7 @@ def create_table(con: DuckDBPyConnection) -> None:
     con.execute(query)
 
 
-def insert_new_records(con: DuckDBPyConnection, contract_ids: list[int]) -> None:
+def insert_new_records(con: DuckDBPyConnection, contract_ids: set[int]) -> None:
     query = f"INSERT OR IGNORE INTO {__tablename__} ( contract_id ) VALUES( ? )"
     params = [[id] for id in contract_ids]
     con.executemany(query, params)
@@ -69,5 +69,5 @@ def get_ids_with_status(
 ) -> set[int]:
     query = f"SELECT contract_id FROM {__tablename__} WHERE {stage} = $status"
     params = {"status": status}
-    records = con.execute(query, params).fetchall()
+    records: list[tuple[int]] = con.execute(query, params).fetchall()  # pyright: ignore
     return {row[0] for row in records}

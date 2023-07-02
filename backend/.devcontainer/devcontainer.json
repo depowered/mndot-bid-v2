@@ -20,7 +20,8 @@
                     }
                 },
                 "python.formatting.provider": "black",
-                "python.linting.pylintEnabled": false
+                "python.linting.pylintEnabled": false,
+                "python.analysis.typeCheckingMode": "strict"
             },
             "extensions": [
                 "ms-python.python",

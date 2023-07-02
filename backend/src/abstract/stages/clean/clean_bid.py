@@ -14,7 +14,7 @@ def _cast_monitary_to_cents(s: pl.Series) -> pl.Series:
     """Cast a monitary string to int cents. Example: '$10.43' -> 1043"""
     return (
         s.str.strip()
-        .str.replace_all("\$", "")
+        .str.replace_all("\\$", "")
         .str.replace_all(",", "")
         .cast(pl.Float32)
         * 100
@@ -84,7 +84,7 @@ def _clean_bid(csv: Path) -> pl.DataFrame:
     df_output = df_melt.select(
         [
             pl.all().exclude("bidder_name"),
-            pl.col("bidder_name").str.replace("\(Unit Price\)", "").str.strip(),
+            pl.col("bidder_name").str.replace("\\(Unit Price\\)", "").str.strip(),
         ]
     )
     _validate_output_df(df_output)
