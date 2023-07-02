@@ -6,7 +6,8 @@ from src.abstract.stages.download.download_abstract import (
     DownloadError,
     download_abstract_csv,
 )
-from src.database import abstract_pipeline, db
+from src.database import db
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 get_ids_to_download = partial(

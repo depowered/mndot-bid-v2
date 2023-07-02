@@ -2,7 +2,8 @@ import click
 
 from src.abstract.pipeline import pipeline
 from src.abstract.stages import clean, download, load, scrape, split
-from src.database import abstract_pipeline, db
+from src.database import db
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 

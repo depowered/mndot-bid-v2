@@ -6,7 +6,8 @@ from src.abstract.stages.scrape.scrape_contract_ids import (
     ScrapeError,
     scrape_contract_ids,
 )
-from src.database import abstract_pipeline, db
+from src.database import db
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 

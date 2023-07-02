@@ -7,7 +7,8 @@ from src.abstract.stages.load.load_tables import (
     load_raw_bids,
     load_raw_contracts,
 )
-from src.database import abstract_pipeline, db, raw_bidders, raw_bids, raw_contracts
+from src.database import db
+from src.database.tables import abstract_pipeline, raw_bidders, raw_bids, raw_contracts
 from src.settings import Settings
 
 previous_stage_complete_ids = partial(

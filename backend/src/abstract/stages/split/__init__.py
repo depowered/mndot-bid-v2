@@ -3,7 +3,8 @@ from functools import partial
 from loguru import logger
 
 from src.abstract.stages.split.split_abstracts import SplitError, split_abstract_csv
-from src.database import abstract_pipeline, db
+from src.database import db
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 previous_stage_complete_ids = partial(

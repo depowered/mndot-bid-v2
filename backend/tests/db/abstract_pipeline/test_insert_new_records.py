@@ -1,4 +1,4 @@
-from src.database import abstract_pipeline
+from src.database.tables import abstract_pipeline
 from tests.db.mock_db import mock_con
 
 

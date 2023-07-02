@@ -6,7 +6,8 @@ from src.abstract.stages.clean.clean_bid import clean_bid_csv
 from src.abstract.stages.clean.clean_bidder import clean_bidder_csv
 from src.abstract.stages.clean.clean_contract import clean_contract_csv
 from src.abstract.stages.clean.validate import ValidationError
-from src.database import abstract_pipeline, db
+from src.database import db
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 previous_stage_complete_ids = partial(

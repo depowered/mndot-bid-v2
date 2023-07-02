@@ -1,7 +1,7 @@
 import duckdb
 from duckdb import DuckDBPyConnection
 
-from src.database import abstract_pipeline
+from src.database.tables import abstract_pipeline
 from src.settings import Settings
 
 

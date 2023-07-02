@@ -1,6 +1,6 @@
 from duckdb import DuckDBPyConnection
 
-from src.database import raw_bidders, raw_bids, raw_contracts
+from src.database.tables import raw_bidders, raw_bids, raw_contracts
 from src.settings import Settings
 
 
