@@ -13,9 +13,6 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "ruff.path": [
-                    "/workspaces/mndot-bid-v2/backend/.venv/bin/ruff"
-                ],
                 "[python]": {
                     "editor.formatOnSave": true,
                     "editor.codeActionsOnSave": {
@@ -23,12 +20,14 @@
                     }
                 },
                 "python.formatting.provider": "black",
-                "python.linting.pylintEnabled": false
+                "python.linting.pylintEnabled": false,
+                "python.analysis.typeCheckingMode": "strict"
             },
             "extensions": [
                 "ms-python.python",
                 "ms-python.black-formatter",
-                "charliermarsh.ruff"
+                "charliermarsh.ruff",
+                "mechatroner.rainbow-csv"
             ]
         }
     }
