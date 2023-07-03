@@ -70,3 +70,5 @@ def clean_item_list_csv(settings: Settings, year: int) -> None:
         raise ValidationError(
             f"Failed to clean {csv.name} with message: {e.args[0]}"
         ) from e
+    except pl.ComputeError as e:
+        raise ValidationError(e.args[0]) from e

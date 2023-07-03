@@ -77,12 +77,4 @@ def run(settings: Settings) -> None:
 
 def done() -> bool:
     """Returns a bool indicating if the stage needs to be run"""
-    con = db.get_db_con()
-    ready = previous_stage_complete_ids(con=con)
-    not_run = current_stage_not_run_ids(con=con)
-    ids = {id for id in not_run if id in ready}
-
-    count = len(ids)
-    if count < 1:
-        logger.info("LOAD: No new data to load. Skipping stage.")
-    return count < 1
+    return False  # Always run stage when called
