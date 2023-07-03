@@ -25,7 +25,8 @@ def run_pipeline(year: int) -> None:
 def run_scrape(year: int) -> None:
     """Runs the scrape stage"""
     settings = Settings()
-    scrape.run(settings, year)
+    if not scrape.done():
+        scrape.run(settings, year)
 
 
 @abstract.command()
