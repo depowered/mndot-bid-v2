@@ -18,3 +18,8 @@ def configure_logging() -> None:
         ]
     }
     logger.configure(**config)
+
+
+def log_command() -> None:
+    """Log the command passed to the CLI"""
+    logger.info(" ".join(sys.argv))
