@@ -104,3 +104,5 @@ def clean_bid_csv(settings: Settings, contract_id: int) -> None:
         raise ValidationError(
             f"Failed to clean {csv.name} with message: {e.args[0]}"
         ) from e
+    except pl.ComputeError as e:
+        raise ValidationError(e.args[0]) from e
