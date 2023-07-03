@@ -13,6 +13,12 @@ previous_stage_complete_ids = partial(
     status=abstract_pipeline.Status.COMPLETE,
 )
 
+previous_stage_edited_ids = partial(
+    abstract_pipeline.get_ids_with_status,
+    stage=abstract_pipeline.Stage.DOWNLOAD,
+    status=abstract_pipeline.Status.EDITED,
+)
+
 current_stage_not_run_ids = partial(
     abstract_pipeline.get_ids_with_status,
     stage=abstract_pipeline.Stage.SPLIT,
@@ -36,7 +42,7 @@ def run(settings: Settings) -> None:
     """Splits Abstract CSVs into their subtables"""
     con = db.get_db_con()
 
-    ready = previous_stage_complete_ids(con=con)
+    ready = previous_stage_complete_ids(con=con) | previous_stage_edited_ids(con=con)
     not_run = current_stage_not_run_ids(con=con)
     ids = {id for id in not_run if id in ready}
 
@@ -53,7 +59,7 @@ def run(settings: Settings) -> None:
 def done() -> bool:
     """Returns a bool indicating if the stage needs to be run"""
     con = db.get_db_con()
-    ready = previous_stage_complete_ids(con=con)
+    ready = previous_stage_complete_ids(con=con) | previous_stage_edited_ids(con=con)
     not_run = current_stage_not_run_ids(con=con)
     ids = {id for id in not_run if id in ready}
 
