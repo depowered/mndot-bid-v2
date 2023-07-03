@@ -1,5 +1,7 @@
 import click
 
+from src.database import db
+from src.database.tables import item_pipeline
 from src.item.pipeline import pipeline
 from src.item.stages import clean, download, load, scrape
 from src.settings import Settings
@@ -72,6 +74,13 @@ def run_load() -> None:
     default=False,
     help="Reset load stage",
 )
-def reset_stages(download: bool, split: bool, clean: bool, load: bool) -> None:
+def reset_stages(download: bool, clean: bool, load: bool) -> None:
     """Sets all records in provided stages to 'not run'"""
-    pass
+    stages = []
+    stages.append(item_pipeline.Stage.DOWNLOAD) if download else None
+    stages.append(item_pipeline.Stage.CLEAN) if clean else None
+    stages.append(item_pipeline.Stage.LOAD) if load else None
+    if not stages:
+        click.echo("No stages selected. See --help for options.")
+        return
+    item_pipeline.reset_stages(db.get_db_con(), stages)
