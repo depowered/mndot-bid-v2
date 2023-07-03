@@ -29,6 +29,7 @@ def dump_tables(output_dir: Path) -> None:
         "raw_contracts",
         "raw_bids",
         "raw_bidders",
+        "raw_items",
     ]
     output_dir.mkdir(parents=True, exist_ok=True)
     con = get_db_con()
