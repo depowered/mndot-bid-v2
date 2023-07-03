@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     clean_abstract_dir: Path = data_dir / "interim/clean_abstracts/"
 
     raw_item_list_dir: Path = data_dir / "raw/item_lists/"
+    clean_item_list_dir: Path = data_dir / "interim/clean_item_lists/"
 
     mndot_abstracts_app: HttpUrl = Field(
         default="https://transport.dot.state.mn.us/PostLetting/Abstract.aspx"
