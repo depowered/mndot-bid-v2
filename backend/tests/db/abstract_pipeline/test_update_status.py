@@ -1,7 +1,7 @@
 from src.database.tables import abstract_pipeline
 from tests.db.mock_db import DuckDBPyConnection, mock_con
 
-Record = tuple[int, str, str, str, str]
+Record = tuple[int, str]
 
 
 def test_update_status_download(mock_con: DuckDBPyConnection):

@@ -10,7 +10,7 @@ def test_insert_new_records(mock_con: DuckDBPyConnection):
     ).fetchone()  # pyright: ignore
     assert count[0] == 5
 
-    record: tuple[int, str, str, str, str] = mock_con.sql(
+    record: tuple[int, str] = mock_con.sql(
         "SELECT * FROM abstract_pipeline WHERE contract_id=50"
     ).fetchone()  # pyright: ignore
     assert record == (50, "not run", "not run", "not run", "not run")

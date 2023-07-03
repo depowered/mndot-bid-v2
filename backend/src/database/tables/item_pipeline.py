@@ -4,12 +4,11 @@ from duckdb import DuckDBPyConnection
 
 from src.database.types.status import Status
 
-__tablename__ = "abstract_pipeline"
+__tablename__ = "item_pipeline"
 
 
 class Stage(StrEnum):
     DOWNLOAD = "download_stage"
-    SPLIT = "split_stage"
     CLEAN = "clean_stage"
     LOAD = "load_stage"
 
@@ -17,31 +16,30 @@ class Stage(StrEnum):
 def create_table(con: DuckDBPyConnection) -> None:
     query = f"""
     CREATE TABLE {__tablename__} (
-        contract_id INTEGER PRIMARY KEY,
+        spec_year INTEGER PRIMARY KEY,
         download_stage status DEFAULT 'not run',
-        split_stage status DEFAULT 'not run',
         clean_stage status DEFAULT 'not run',
         load_stage status DEFAULT 'not run',
     )"""
     con.execute(query)
 
 
-def insert_new_records(con: DuckDBPyConnection, contract_ids: set[int]) -> None:
-    query = f"INSERT OR IGNORE INTO {__tablename__} ( contract_id ) VALUES( ? )"
-    params = [[id] for id in contract_ids]
+def insert_new_records(con: DuckDBPyConnection, spec_years: set[int]) -> None:
+    query = f"INSERT OR IGNORE INTO {__tablename__} ( spec_year ) VALUES( ? )"
+    params = [[year] for year in spec_years]
     con.executemany(query, params)
     con.commit()
 
 
 def update_status(
-    con: DuckDBPyConnection, contract_id: int, stage: Stage, status: Status
+    con: DuckDBPyConnection, spec_year: int, stage: Stage, status: Status
 ) -> None:
     query = f"""
         UPDATE {__tablename__}
         SET {stage} = $status
-        WHERE contract_id = $contract_id
+        WHERE spec_year = $spec_year
     """
-    params = {"status": status, "contract_id": contract_id}
+    params = {"status": status, "spec_year": spec_year}
     con.execute(query, params)
     con.commit()
 
@@ -55,10 +53,10 @@ def reset_stages(con: DuckDBPyConnection, stages: list[Stage]) -> None:
     con.commit()
 
 
-def get_ids_with_status(
+def get_years_with_status(
     con: DuckDBPyConnection, stage: Stage, status: Status
 ) -> set[int]:
-    query = f"SELECT contract_id FROM {__tablename__} WHERE {stage} = $status"
+    query = f"SELECT spec_year FROM {__tablename__} WHERE {stage} = $status"
     params = {"status": status}
     records: list[tuple[int]] = con.execute(query, params).fetchall()  # pyright: ignore
     return {row[0] for row in records}

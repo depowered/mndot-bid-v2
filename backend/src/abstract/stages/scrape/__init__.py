@@ -17,9 +17,13 @@ def run(settings: Settings, year: int) -> None:
     try:
         contract_ids = scrape_contract_ids(settings, year)
     except ScrapeError as e:
-        logger.error("SCRAPE: Stage raised an error")
-        logger.error(e)
+        logger.error(f"SCRAPE: {e.args[0]}")
         sys.exit(1)
 
-    logger.info("SCRAPE: Loading database")
-    abstract_pipeline.insert_new_records(con=db.get_db_con(), contract_ids=contract_ids)
+    con = db.get_db_con()
+    abstract_pipeline.insert_new_records(con, contract_ids)
+
+
+def done() -> bool:
+    """Returns a bool indicating if the stage needs to be run"""
+    return False  # always run the scrape stage when called
