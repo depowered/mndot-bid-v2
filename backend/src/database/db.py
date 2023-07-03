@@ -6,6 +6,7 @@ from duckdb import CatalogException, DuckDBPyConnection
 
 from src.database.tables import abstract_pipeline, item_pipeline
 from src.database.types import status
+from src.database.views import failed_abstract_pipeline
 from src.settings import Settings
 
 
@@ -20,6 +21,7 @@ def init_db() -> None:
     status.create_status_type(con)
     abstract_pipeline.create_table(con)
     item_pipeline.create_table(con)
+    failed_abstract_pipeline.create_or_replace_view(con)
 
 
 def dump_tables(output_dir: Path) -> None:
