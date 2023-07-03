@@ -13,11 +13,10 @@ def item() -> None:
 
 
 @item.command()
-@click.option("--year", type=int, required=True, help="Specification year")
-def run_pipeline(year: int) -> None:
+def run_pipeline() -> None:
     """Runs the processing pipeline"""
     settings = Settings()
-    pipeline(settings, year)
+    pipeline(settings)
 
 
 @item.command()
@@ -76,7 +75,7 @@ def run_load() -> None:
 )
 def reset_stages(download: bool, clean: bool, load: bool) -> None:
     """Sets all records in provided stages to 'not run'"""
-    stages = []
+    stages: list[item_pipeline.Stage] = []
     stages.append(item_pipeline.Stage.DOWNLOAD) if download else None
     stages.append(item_pipeline.Stage.CLEAN) if clean else None
     stages.append(item_pipeline.Stage.LOAD) if load else None
