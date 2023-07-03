@@ -30,7 +30,7 @@ set_download_status_to_failed = partial(
 
 
 def run(settings: Settings) -> None:
-    """Downloads Abstract CSVs"""
+    """Downloads Item List CSVs"""
     con = db.get_db_con()
     spec_years = get_years_to_download(con=con)
     logger.info(f"DOWNLOAD: Downloading {len(spec_years)} item list CSVs")
