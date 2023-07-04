@@ -1,7 +1,7 @@
 sources:
   - name: dbt_source
     meta:
-      external_location: "../../data/interim/dbt/source/{name}.parquet"
+      external_location: "../../data/interim/dbt_source/{name}.parquet"
     tables:
       - name: raw_bidders
       - name: raw_bids

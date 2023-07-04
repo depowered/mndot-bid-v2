@@ -10,8 +10,7 @@ class Settings(BaseSettings):
     data_dir: Path = PROJECT_DIR / "data/"
 
     # Database
-    db: Path = data_dir / "raw-datastore.duckdb"
-    db_dump_dir: Path = data_dir / "db_dump/"
+    db: Path = data_dir / "raw_datastore.duckdb"
 
     # Abstract processing
     raw_abstract_dir: Path = data_dir / "raw/abstracts/"
@@ -32,4 +31,4 @@ class Settings(BaseSettings):
     )
 
     # Data Build Tool (dbt)
-    dbt_source_dir: Path = data_dir / "interim/dbt/source/"
+    dbt_source_dir: Path = data_dir / "interim/dbt_source/"
