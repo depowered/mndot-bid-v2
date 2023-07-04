@@ -8,7 +8,7 @@ with items as (
         unit_name,
         plan_unit_description
     from 
-        {{ ref('raw_items') }}
+        {{ ref('clean_items') }}
 ),
 
 spec_2016 as (
@@ -20,7 +20,7 @@ spec_2016 as (
         unit_name,
         true as in_spec_2016 
     from 
-        {{ ref('raw_items') }}
+        {{ ref('clean_items') }}
     where 
         spec_year = 2016
 ),
@@ -34,7 +34,7 @@ spec_2018 as (
         unit_name,
         true as in_spec_2018  
     from 
-        {{ ref('raw_items') }}
+        {{ ref('clean_items') }}
     where 
         spec_year = 2018
 ),
@@ -48,7 +48,7 @@ spec_2020 as (
         unit_name,
         true as in_spec_2020 
     from 
-        {{ ref('raw_items') }}
+        {{ ref('clean_items') }}
     where 
         spec_year = 2020
 ),

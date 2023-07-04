@@ -2,7 +2,7 @@ from pathlib import Path
 
 from duckdb import DuckDBPyConnection
 
-tablename = "raw_items"
+tablename = "clean_items"
 
 
 def create_or_replace_table(con: DuckDBPyConnection, parquets: set[Path]) -> None:

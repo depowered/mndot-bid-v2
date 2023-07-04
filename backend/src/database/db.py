@@ -6,11 +6,11 @@ from duckdb import CatalogException, DuckDBPyConnection
 
 from src.database.tables import (
     abstract_pipeline,
+    clean_bidders,
+    clean_bids,
+    clean_contracts,
+    clean_items,
     item_pipeline,
-    raw_bidders,
-    raw_bids,
-    raw_contracts,
-    raw_items,
 )
 from src.database.types import status
 from src.database.views import failed_abstract_pipeline
@@ -35,10 +35,10 @@ def copy_tables_to_parquet(output_dir: Path) -> None:
     tables = [
         abstract_pipeline.tablename,
         item_pipeline.tablename,
-        raw_bidders.tablename,
-        raw_bids.tablename,
-        raw_contracts.tablename,
-        raw_items.tablename,
+        clean_bidders.tablename,
+        clean_bids.tablename,
+        clean_contracts.tablename,
+        clean_items.tablename,
     ]
     output_dir.mkdir(parents=True, exist_ok=True)
     con = get_db_con()

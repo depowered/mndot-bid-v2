@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     data_dir: Path = PROJECT_DIR / "data/"
 
     # Database
-    db: Path = data_dir / "raw_datastore.duckdb"
+    db: Path = data_dir / "clean_datastore.duckdb"
 
     # Abstract processing
     raw_abstract_dir: Path = data_dir / "raw/abstracts/"

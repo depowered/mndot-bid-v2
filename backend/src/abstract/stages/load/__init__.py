@@ -3,12 +3,17 @@ from functools import partial
 from loguru import logger
 
 from src.abstract.stages.load.load_tables import (
-    load_raw_bidders,
-    load_raw_bids,
-    load_raw_contracts,
+    load_clean_bidders,
+    load_clean_bids,
+    load_clean_contracts,
 )
 from src.database import db
-from src.database.tables import abstract_pipeline, raw_bidders, raw_bids, raw_contracts
+from src.database.tables import (
+    abstract_pipeline,
+    clean_bidders,
+    clean_bids,
+    clean_contracts,
+)
 from src.settings import Settings
 
 previous_stage_complete_ids = partial(
@@ -52,21 +57,21 @@ def run(settings: Settings) -> None:
 
     logger.info(f"LOAD: Loading data from {len(load)} Abstracts")
 
-    load_raw_contracts(con, settings, load)
-    load_raw_bids(con, settings, load)
-    load_raw_bidders(con, settings, load)
+    load_clean_contracts(con, settings, load)
+    load_clean_bids(con, settings, load)
+    load_clean_bidders(con, settings, load)
 
     # Verify that all contracts ids appear in each table
     # Set status to failed and remove records for any ids that fail check
-    missing_from_contracts = load - raw_contracts.get_all_contract_ids(con)
-    missing_from_bids = load - raw_bids.get_all_contract_ids(con)
-    missing_from_bidders = load - raw_bidders.get_all_contract_ids(con)
+    missing_from_contracts = load - clean_contracts.get_all_contract_ids(con)
+    missing_from_bids = load - clean_bids.get_all_contract_ids(con)
+    missing_from_bidders = load - clean_bidders.get_all_contract_ids(con)
     missing = missing_from_contracts | missing_from_bids | missing_from_bidders
     if missing:
         logger.warning(f"LOAD: Failed to load ids: {missing}")
-        raw_contracts.delete_contract_ids(con, missing)
-        raw_bids.delete_contract_ids(con, missing)
-        raw_bidders.delete_contract_ids(con, missing)
+        clean_contracts.delete_contract_ids(con, missing)
+        clean_bids.delete_contract_ids(con, missing)
+        clean_bidders.delete_contract_ids(con, missing)
         for id in missing:
             set_load_status_to_failed(con=con, contract_id=id)
 

@@ -3,7 +3,7 @@ from functools import partial
 from loguru import logger
 
 from src.database import db
-from src.database.tables import item_pipeline, raw_items
+from src.database.tables import clean_items, item_pipeline
 from src.settings import Settings
 
 previous_stage_complete_years = partial(
@@ -47,7 +47,7 @@ def run(settings: Settings) -> None:
     parquets = {
         settings.clean_item_list_dir / f"item_list_{year}.parquet" for year in ready
     }
-    raw_items.create_or_replace_table(con, parquets)
+    clean_items.create_or_replace_table(con, parquets)
     for year in ready:
         set_load_status_to_complete(con=con, spec_year=year)
 
