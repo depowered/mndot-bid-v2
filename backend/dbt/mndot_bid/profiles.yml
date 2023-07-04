@@ -1,0 +1,6 @@
+mndot_bid:
+  outputs:
+   dev:
+     type: duckdb
+     path: "../../data/interim/dbt/dbt.duckdb"
+  target: dev
