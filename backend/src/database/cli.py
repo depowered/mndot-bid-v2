@@ -48,6 +48,17 @@ def dump() -> None:
 
 
 @database.command()
+def write_dbt_source() -> None:
+    """Dump select tables to dbt_source dir as parquet"""
+    settings = Settings()
+    if not settings.db.exists():
+        logger.warning(f"{settings.db.name} does not exist. Exiting...")
+        sys.exit(1)
+    db.write_dbt_source(output_dir=settings.dbt_source_dir)
+    logger.info(f"Wrote parquets to: {settings.dbt_source_dir}")
+
+
+@database.command()
 @click.argument(
     "parquets", nargs=-1, required=True, type=click.Path(exists=True, path_type=Path)
 )

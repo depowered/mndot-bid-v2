@@ -41,6 +41,21 @@ def dump_tables(output_dir: Path) -> None:
         con.execute(query)
 
 
+def write_dbt_source(output_dir: Path) -> None:
+    tables = [
+        "raw_contracts",
+        "raw_bids",
+        "raw_bidders",
+        "raw_items",
+    ]
+    output_dir.mkdir(parents=True, exist_ok=True)
+    con = get_db_con()
+    for table in tables:
+        parquet = output_dir / f"{table}.parquet"
+        query = f"COPY {table} TO '{parquet}' (FORMAT PARQUET)"
+        con.execute(query)
+
+
 def load_tables_from_dump(parquets: Sequence[Path]) -> None:
     con = get_db_con()
     for parquet in parquets:
