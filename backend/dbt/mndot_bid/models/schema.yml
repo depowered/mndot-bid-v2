@@ -15,3 +15,16 @@ models:
       - name: in_spec_2020
         tests:
           - not_null
+
+  - name: int_item_counts
+    columns:
+      - name: item_id
+        tests:
+          - unique
+          - not_null
+      - name: contract_count
+        tests:
+          - not_null
+      - name: bid_count
+        tests:
+          - not_null
