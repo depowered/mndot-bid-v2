@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: int_spec_year_matrix
+    columns:
+      - name: id
+        tests:
+          - unique
+      - name: in_spec_2016
+        tests:
+          - not_null
+      - name: in_spec_2018
+        tests:
+          - not_null
+      - name: in_spec_2020
+        tests:
+          - not_null
