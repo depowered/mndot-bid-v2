@@ -4,7 +4,14 @@ from typing import Sequence
 import duckdb
 from duckdb import CatalogException, DuckDBPyConnection
 
-from src.database.tables import abstract_pipeline, item_pipeline
+from src.database.tables import (
+    abstract_pipeline,
+    item_pipeline,
+    raw_bidders,
+    raw_bids,
+    raw_contracts,
+    raw_items,
+)
 from src.database.types import status
 from src.database.views import failed_abstract_pipeline
 from src.settings import Settings
@@ -24,29 +31,14 @@ def init_db() -> None:
     failed_abstract_pipeline.create_or_replace_view(con)
 
 
-def dump_tables(output_dir: Path) -> None:
+def copy_tables_to_parquet(output_dir: Path) -> None:
     tables = [
-        "abstract_pipeline",
-        "item_pipeline",
-        "raw_contracts",
-        "raw_bids",
-        "raw_bidders",
-        "raw_items",
-    ]
-    output_dir.mkdir(parents=True, exist_ok=True)
-    con = get_db_con()
-    for table in tables:
-        parquet = output_dir / f"{table}.parquet"
-        query = f"COPY {table} TO '{parquet}' (FORMAT PARQUET)"
-        con.execute(query)
-
-
-def write_dbt_source(output_dir: Path) -> None:
-    tables = [
-        "raw_contracts",
-        "raw_bids",
-        "raw_bidders",
-        "raw_items",
+        abstract_pipeline.tablename,
+        item_pipeline.tablename,
+        raw_bidders.tablename,
+        raw_bids.tablename,
+        raw_contracts.tablename,
+        raw_items.tablename,
     ]
     output_dir.mkdir(parents=True, exist_ok=True)
     con = get_db_con()
