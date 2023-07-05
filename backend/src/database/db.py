@@ -4,7 +4,14 @@ from typing import Sequence
 import duckdb
 from duckdb import CatalogException, DuckDBPyConnection
 
-from src.database.tables import abstract_pipeline, item_pipeline
+from src.database.tables import (
+    abstract_pipeline,
+    clean_bidders,
+    clean_bids,
+    clean_contracts,
+    clean_items,
+    item_pipeline,
+)
 from src.database.types import status
 from src.database.views import failed_abstract_pipeline
 from src.settings import Settings
@@ -24,14 +31,14 @@ def init_db() -> None:
     failed_abstract_pipeline.create_or_replace_view(con)
 
 
-def dump_tables(output_dir: Path) -> None:
+def copy_tables_to_parquet(output_dir: Path) -> None:
     tables = [
-        "abstract_pipeline",
-        "item_pipeline",
-        "raw_contracts",
-        "raw_bids",
-        "raw_bidders",
-        "raw_items",
+        abstract_pipeline.tablename,
+        item_pipeline.tablename,
+        clean_bidders.tablename,
+        clean_bids.tablename,
+        clean_contracts.tablename,
+        clean_items.tablename,
     ]
     output_dir.mkdir(parents=True, exist_ok=True)
     con = get_db_con()

@@ -1,0 +1,9 @@
+sources:
+  - name: dbt_source
+    meta:
+      external_location: "../../data/interim/dbt_source/{name}.parquet"
+    tables:
+      - name: clean_bidders
+      - name: clean_bids
+      - name: clean_contracts
+      - name: clean_items
