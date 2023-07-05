@@ -1,6 +1,6 @@
 <script>
-	import ItemTable from './ItemTable.svelte';
-	import ItemSearch from './itemSearch.svelte';
+	import ItemTable from '../../lib/components/ItemTable.svelte';
+	import ItemSearch from '../../lib/components/ItemSearch.svelte';
 </script>
 
 <div id="dashboard">
