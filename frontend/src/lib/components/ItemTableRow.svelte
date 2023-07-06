@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { Button, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
+	import { selectedItemId } from '$lib/store';
 
 	export let rowData: RowData;
+
+	const handleClick = () => {
+		selectedItemId.set(rowData.id);
+	};
 
 	const tdClass = 'px-6 py-2 whitespace-nowrap font-medium ';
 </script>
@@ -13,7 +18,7 @@
 				<img src="/xmark-solid.svg" alt="x icon" class="h-5 w-5" />
 			</Button>
 		{:else}
-			<Button class="w-8 h-8 p-0">
+			<Button on:click={handleClick} class="w-8 h-8 p-0">
 				<img src="/chart-icon.svg" alt="chart icon" class="h-5 w-5" />
 			</Button>
 		{/if}
