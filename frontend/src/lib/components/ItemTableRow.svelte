@@ -1,26 +1,25 @@
 <script lang="ts">
 	import { Button, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
-	import ViewBidsBtn from './ViewBidsBtn.svelte';
 
-	export let id: number;
-	export let itemNumber: string;
-	export let itemDescription: string;
-	export let unit: string;
-	export let contractOccur: number;
+	export let rowData: RowData;
 
 	const tdClass = 'px-6 py-2 whitespace-nowrap font-medium ';
 </script>
 
 <TableBodyRow>
 	<TableBodyCell {tdClass}>
-		{#if contractOccur < 1}
-			<ViewBidsBtn disabled={true} />
+		{#if rowData.contractOccur < 1}
+			<Button disabled={true} class="w-8 h-8 p-0">
+				<img src="/xmark-solid.svg" alt="x icon" class="h-5 w-5" />
+			</Button>
 		{:else}
-			<ViewBidsBtn />
+			<Button class="w-8 h-8 p-0">
+				<img src="/chart-icon.svg" alt="chart icon" class="h-5 w-5" />
+			</Button>
 		{/if}
 	</TableBodyCell>
-	<TableBodyCell {tdClass}>{itemNumber}</TableBodyCell>
-	<TableBodyCell {tdClass}>{itemDescription}</TableBodyCell>
-	<TableBodyCell {tdClass}>{unit}</TableBodyCell>
-	<TableBodyCell {tdClass}>{contractOccur}</TableBodyCell>
+	<TableBodyCell {tdClass}>{rowData.itemNumber}</TableBodyCell>
+	<TableBodyCell {tdClass}>{rowData.itemDescription}</TableBodyCell>
+	<TableBodyCell {tdClass}>{rowData.unit}</TableBodyCell>
+	<TableBodyCell {tdClass}>{rowData.contractOccur}</TableBodyCell>
 </TableBodyRow>

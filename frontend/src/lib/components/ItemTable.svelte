@@ -33,7 +33,7 @@
 		return results.toArray()[0].count;
 	};
 
-	const getRows = async (subQuery: string, limit: number, offset: number) => {
+	const getRows = async (subQuery: string, limit: number, offset: number): Promise<RowData[]> => {
 		const conn = await getConnection();
 		const q = `SELECT * FROM (${subQuery}) LIMIT ${limit} OFFSET ${offset}`;
 		const results = await getQueryResults(conn, q);
@@ -73,8 +73,8 @@
 			{/each}
 		</TableHead>
 		<TableBody tableBodyClass="divide-y">
-			{#each rows as row}
-				<ItemTableRow {...row} />
+			{#each rows as rowData}
+				<ItemTableRow {rowData} />
 			{/each}
 		</TableBody>
 	</Table>
