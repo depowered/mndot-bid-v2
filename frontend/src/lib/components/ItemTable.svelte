@@ -17,7 +17,7 @@
 	const conn_prom = load_db();
 
 	// SQL to send to DuckDB-Wasm
-	const prepare_query = (limit = 20, offset = 0) => {
+	const prepare_query = (searchValue = '', selectedSpecYear = 2020, limit = 20, offset = 0) => {
 		return `
         SELECT 
             id, 
@@ -26,6 +26,10 @@
             plan_unit_description as unit,
             contract_count as contractOccur
         FROM parquet_scan('prod_item_search.parquet')
+        WHERE 
+            in_spec_${selectedSpecYear} = TRUE AND
+            item_number LIKE '%${searchValue}%' OR
+            long_description LIKE '%${searchValue}%'
         ORDER BY item_number
         LIMIT ${limit}
         OFFSET ${offset}
@@ -34,16 +38,17 @@
 
 	// Send query and await results from DuckDB
 	const get_query = async (q: string) => {
-		const conn = await load_db();
+		const conn = await conn_prom;
 		const results = await conn.query(q);
 		return results;
 	};
 
-	const headers = ['View Data', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
-	$: rows = new Promise(() => {});
+	const headers = ['View Bids', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
+	let rows = new Promise(() => {});
 
-	const get_rows = async (limit = 20, offset = 0) => {
-		const q = prepare_query(limit, offset);
+	const get_rows = async (searchValue = '', selectedSpecYear = 2020, limit = 20, offset = 0) => {
+		const q = prepare_query(searchValue, selectedSpecYear, limit, offset);
+		console.log(q);
 		const results = get_query(q);
 		const result = await results;
 		rows = result.toArray();
