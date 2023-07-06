@@ -33,7 +33,11 @@
 		return results.toArray()[0].count;
 	};
 
-	const getRows = async (subQuery: string, limit: number, offset: number): Promise<RowData[]> => {
+	const getPaginatedRows = async (
+		subQuery: string,
+		limit: number,
+		offset: number
+	): Promise<RowData[]> => {
 		const conn = await getConnection();
 		const q = `SELECT * FROM (${subQuery}) LIMIT ${limit} OFFSET ${offset}`;
 		const results = await conn.query(q);
@@ -43,7 +47,7 @@
 	$: subQuery = prepareSubQuery(submittedSearchValue, submittedSpecYear);
 
 	// Table content
-	$: rows = getRows(subQuery, limit, offset);
+	$: rows = getPaginatedRows(subQuery, limit, offset);
 	const headers = ['View Bids', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
 
 	// Pagination
