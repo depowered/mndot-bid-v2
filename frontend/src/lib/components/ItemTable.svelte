@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Table, TableBody, TableHead, TableHeadCell, Spinner, Pagination } from 'flowbite-svelte';
 	import ItemTableRow from './ItemTableRow.svelte';
-	import { getConnection, getQueryResults, PARQUETS } from '$lib/duckdb';
+	import { getConnection, PARQUETS } from '$lib/duckdb';
 
 	export let submittedSearchValue: string;
 	export let submittedSpecYear: number;
@@ -29,14 +29,14 @@
 	const getRecordCount = async (subQuery: string): Promise<number> => {
 		const conn = await getConnection();
 		const q = `SELECT COUNT(*) AS count FROM (${subQuery})`;
-		const results = await getQueryResults(conn, q);
+		const results = await conn.query(q);
 		return results.toArray()[0].count;
 	};
 
 	const getRows = async (subQuery: string, limit: number, offset: number): Promise<RowData[]> => {
 		const conn = await getConnection();
 		const q = `SELECT * FROM (${subQuery}) LIMIT ${limit} OFFSET ${offset}`;
-		const results = await getQueryResults(conn, q);
+		const results = await conn.query(q);
 		return results.toArray();
 	};
 

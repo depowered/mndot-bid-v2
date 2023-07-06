@@ -53,9 +53,5 @@ const getConnection = async () => {
   return db.connect();
 };
 
-const getQueryResults = async (conn: AsyncDuckDBConnection, q: string) => {
-  return await conn.query(q);
-};
-
-export { getConnection, getQueryResults, PARQUETS };
+export { getConnection, PARQUETS };
 
