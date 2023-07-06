@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Table, TableBody, TableHead, TableHeadCell } from 'flowbite-svelte';
+	import { Table, TableBody, TableHead, TableHeadCell, Spinner } from 'flowbite-svelte';
 	import ItemTableRow from './ItemTableRow.svelte';
 	import { getConnection, getQueryResults, PARQUETS } from '$lib/duckdb';
 
@@ -48,19 +48,21 @@
 	const headers = ['View Bids', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
 </script>
 
-<Table hoverable class="mt-5">
-	<TableHead theadClass="text-sm uppercase">
-		{#each headers as header}
-			<TableHeadCell>{header}</TableHeadCell>
-		{/each}
-	</TableHead>
-	{#await rows}
-		<div />
-	{:then rows}
+{#await rows}
+	<div class="flex items-center justify-center mt-5">
+		<Spinner size="12" />
+	</div>
+{:then rows}
+	<Table hoverable class="mt-5">
+		<TableHead theadClass="text-sm uppercase">
+			{#each headers as header}
+				<TableHeadCell>{header}</TableHeadCell>
+			{/each}
+		</TableHead>
 		<TableBody tableBodyClass="divide-y">
 			{#each rows as row}
 				<ItemTableRow {...row} />
 			{/each}
 		</TableBody>
-	{/await}
-</Table>
+	</Table>
+{/await}
