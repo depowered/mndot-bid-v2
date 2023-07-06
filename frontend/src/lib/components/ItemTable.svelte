@@ -3,9 +3,14 @@
 	import ItemTableRow from './ItemTableRow.svelte';
 	import { getConnection, getQueryResults, PARQUETS } from '$lib/duckdb';
 
+	export let submittedSearchValue: string;
+	export let submittedSpecYear: number;
+	let limit = 10;
+	let offset = 0;
+
 	const prepareQuery = (
-		searchValue: string,
-		selectedSpecYear: number,
+		submittedSearchValue: string,
+		submittedSpecYear: number,
 		limit: number,
 		offset: number
 	) => {
@@ -18,9 +23,11 @@
             contract_count as contractOccur
         FROM parquet_scan(${PARQUETS.items})
         WHERE 
-            in_spec_${selectedSpecYear} = TRUE AND
-            item_number LIKE '%${searchValue}%' OR
-            long_description LIKE '%${searchValue}%'
+            in_spec_${submittedSpecYear} = TRUE AND
+            (
+                item_number LIKE '%${submittedSearchValue}%' OR
+                long_description LIKE '%${submittedSearchValue}%'
+            )
         ORDER BY item_number
         LIMIT ${limit}
         OFFSET ${offset}
@@ -39,12 +46,7 @@
 		return results.toArray();
 	};
 
-	export let searchValue = '';
-	export let selectedSpecYear = 2020;
-	export let limit = 10;
-	export let offset = 0;
-
-	$: rows = getRows(searchValue, selectedSpecYear, limit, offset);
+	$: rows = getRows(submittedSearchValue, submittedSpecYear, limit, offset);
 	const headers = ['View Bids', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
 </script>
 
