@@ -4,7 +4,7 @@ import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?ur
 import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
 import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
 
-import type { AsyncDuckDB, AsyncDuckDBConnection } from '@duckdb/duckdb-wasm'
+import type { AsyncDuckDB } from '@duckdb/duckdb-wasm'
 
 let db: AsyncDuckDB | null = null;
 
@@ -38,7 +38,7 @@ const initDB = async () => {
   };
   // Select a bundle based on browser checks
   const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
-  // Instantiate the asynchronus version of DuckDB-wasm
+  // Instantiate the asynchronous version of DuckDB-wasm
   const worker = new Worker(bundle.mainWorker!);
   const logger = new duckdb.ConsoleLogger();
 
