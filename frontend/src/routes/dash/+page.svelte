@@ -3,7 +3,7 @@
 	import ItemSearch from '../../lib/components/ItemSearch.svelte';
 
 	import { selectedItemId } from '$lib/store';
-	import AvgPriceTable from '$lib/components/AvgPriceTable.svelte';
+	import DataVis from '$lib/components/DataVis.svelte';
 
 	let defaultSearchValue = '';
 	let defaultSpecYear = 2020;
@@ -20,7 +20,7 @@
 	/>
 	<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
 	{#if $selectedItemId}
-		<AvgPriceTable />
+		<DataVis />
 	{/if}
 </div>
 

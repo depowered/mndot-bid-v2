@@ -24,7 +24,7 @@
 	};
 
 	$: rows = getRows($selectedItemId);
-	const headers = ['Category', '2023', '2022', '2021', '2020', '2019', '2018'];
+	const headers = ['Type', '2023', '2022', '2021', '2020', '2019', '2018'];
 </script>
 
 {#await rows}
@@ -32,19 +32,17 @@
 		<Spinner size="12" />
 	</div>
 {:then rows}
-	<div class="mt-4 mb-24">
-		<p class="dark:text-white text-xl text-center">Unit Price By Year (Weighted Average)</p>
-		<Table hoverable class="mt-5">
-			<TableHead theadClass="text-sm uppercase">
-				{#each headers as header}
-					<TableHeadCell>{header}</TableHeadCell>
-				{/each}
-			</TableHead>
-			<TableBody tableBodyClass="divide-y">
-				{#each rows as rowData}
-					<AvgPriceTableRow {rowData} />
-				{/each}
-			</TableBody>
-		</Table>
-	</div>
+	<p class="dark:text-white text-xl text-center">Weighted Average Unit Price By Year</p>
+	<Table hoverable class="mt-5">
+		<TableHead theadClass="text-sm uppercase">
+			{#each headers as header}
+				<TableHeadCell>{header}</TableHeadCell>
+			{/each}
+		</TableHead>
+		<TableBody tableBodyClass="divide-y">
+			{#each rows as rowData}
+				<AvgPriceTableRow {rowData} />
+			{/each}
+		</TableBody>
+	</Table>
 {/await}
