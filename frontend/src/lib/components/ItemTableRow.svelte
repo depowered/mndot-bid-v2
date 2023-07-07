@@ -2,7 +2,7 @@
 	import { Button, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
 	import { selectedItemId } from '$lib/store';
 
-	export let rowData: RowData;
+	export let rowData: ItemRowData;
 
 	const handleClick = () => {
 		selectedItemId.set(rowData.id);

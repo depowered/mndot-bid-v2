@@ -1,4 +1,4 @@
-type RowData = {
+type ItemRowData = {
   id: string;
   itemNumber: string;
   itemDescription: string;

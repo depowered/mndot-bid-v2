@@ -37,7 +37,7 @@
 		subQuery: string,
 		limit: number,
 		offset: number
-	): Promise<RowData[]> => {
+	): Promise<ItemRowData[]> => {
 		const conn = await getConnection();
 		const q = `SELECT * FROM (${subQuery}) LIMIT ${limit} OFFSET ${offset}`;
 		const results = await conn.query(q);
