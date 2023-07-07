@@ -3,6 +3,7 @@
 	import ItemSearch from '../../lib/components/ItemSearch.svelte';
 
 	import { selectedItemId } from '$lib/store';
+	import AvgPriceTable from '$lib/components/AvgPriceTable.svelte';
 
 	let defaultSearchValue = '';
 	let defaultSpecYear = 2020;
@@ -18,10 +19,10 @@
 		bind:submittedSpecYear
 	/>
 	<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
+	{#if $selectedItemId}
+		<AvgPriceTable />
+	{/if}
 </div>
-{#if $selectedItemId}
-	<h1 class="dark:text-white">Item Id: {$selectedItemId}</h1>
-{/if}
 
 <style>
 	#dashboard {
