@@ -15,3 +15,8 @@ type AvgPriceRowData = {
   wtAvg2022: number;
   wtAvg2023: number;
 }
+
+type AvgPriceTableData = {
+  headers: string[];
+  data: AvgPriceRowData[];
+}
