@@ -20,3 +20,12 @@ type AvgPriceTableData = {
   headers: string[];
   data: AvgPriceRowData[];
 }
+
+type Bid = {
+  contractId: number;
+  lettingDate: Date;
+  bidderName: string;
+  quantity: number;
+  unitPrice: number;
+  category: string;
+}

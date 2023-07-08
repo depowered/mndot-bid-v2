@@ -27,3 +27,24 @@ const getAvgPriceTableData = async (itemId: string): Promise<AvgPriceTableData> 
 export const weightedAvgPrices = derived(selectedItemId, async ($selectedItemId) => {
   return await getAvgPriceTableData($selectedItemId);
 })
+
+const getBids = async (itemId: string): Promise<Bid[]> => {
+  const conn = await getConnection();
+  const stmt = await conn.prepare(`
+    SELECT 
+        contract_id AS contractId,
+        letting_date AS lettingDate,
+        bidder_name AS bidderName,
+        quantity,
+        (unit_price_cents / 100) AS unitPrice,
+        category
+    FROM parquet_scan(${PARQUETS.bids})
+    WHERE item_id = ?
+    ORDER BY category DESC`);
+  const results = await stmt.query(itemId);
+  return results.toArray();
+}
+
+export const bids = derived(selectedItemId, async ($selectedItemId) => {
+  return await getBids($selectedItemId)
+})
