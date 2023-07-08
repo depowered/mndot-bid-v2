@@ -4,7 +4,7 @@
 	import UnitPriceHistogram from './plots/UnitPriceHistogram.svelte';
 </script>
 
-<div class="mt-8 mb-24">
+<div class="flex flex-col items-center mt-8 mb-24">
 	<Tabs style="underline">
 		<TabItem open title="Weighted Average">
 			<AvgPriceTable />
