@@ -19,9 +19,11 @@
 		bind:submittedSpecYear
 	/>
 	<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
-	{#if $selectedItemId}
-		<DataVis />
-	{/if}
+	<div id="#view-bids" class="h-[500px]">
+		{#if $selectedItemId}
+			<DataVis />
+		{/if}
+	</div>
 </div>
 
 <style>

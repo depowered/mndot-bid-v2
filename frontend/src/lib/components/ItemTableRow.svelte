@@ -6,6 +6,11 @@
 
 	const handleClick = () => {
 		selectedItemId.set(rowData.id);
+
+		// scroll to results
+		const el = document.getElementById('#view-bids');
+		if (!el) return;
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	};
 
 	const tdClass = 'px-6 py-2 whitespace-nowrap font-medium ';

@@ -2,14 +2,20 @@
 	import { Tabs, TabItem } from 'flowbite-svelte';
 	import AvgPriceTable from './AvgPriceTable.svelte';
 	import UnitPriceHistogram from './plots/UnitPriceHistogram.svelte';
+	const handleClick = () => {
+		// scroll to results
+		const el = document.getElementById('#view-bids');
+		if (!el) return;
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	};
 </script>
 
 <div class="flex flex-col items-center mt-8 mb-24">
 	<Tabs style="underline">
-		<TabItem open title="Weighted Average">
+		<TabItem on:click={handleClick} open title="Weighted Average">
 			<AvgPriceTable />
 		</TabItem>
-		<TabItem title="Unit Price Histogram">
+		<TabItem on:click={handleClick} title="Unit Price Histogram">
 			<UnitPriceHistogram />
 		</TabItem>
 	</Tabs>
