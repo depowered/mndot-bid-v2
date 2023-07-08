@@ -1,3 +1,5 @@
+declare module 'd3';
+
 type ItemRowData = {
   id: string;
   itemNumber: string;
