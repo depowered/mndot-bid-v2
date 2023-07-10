@@ -40,7 +40,7 @@ const initDB = async () => {
   const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
   // Instantiate the asynchronous version of DuckDB-wasm
   const worker = new Worker(bundle.mainWorker!);
-  const logger = new duckdb.ConsoleLogger();
+  const logger = new duckdb.VoidLogger();
 
   db = new duckdb.AsyncDuckDB(logger, worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
