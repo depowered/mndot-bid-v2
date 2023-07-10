@@ -4,6 +4,6 @@
 </script>
 
 <Header />
-<main class="container mx-auto p-16 h-screen">
+<main class="container mx-auto h-screen">
 	<slot />
 </main>

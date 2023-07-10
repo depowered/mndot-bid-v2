@@ -20,7 +20,7 @@
 	};
 </script>
 
-<form on:submit={submitted} class="flex max-w-4xl m-auto">
+<form on:submit|preventDefault={submitted} target="_self" class="flex max-w-4xl mx-auto">
 	<Select items={specYears} bind:value={specYear} class="max-w-min mr-2" />
 	<Search
 		bind:value={searchValue}

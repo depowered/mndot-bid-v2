@@ -8,7 +8,7 @@
 		selectedItemId.set(rowData.id);
 
 		// scroll to results
-		const el = document.getElementById('#view-bids');
+		const el = document.getElementById('view-bids');
 		if (!el) return;
 		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	};
