@@ -10,12 +10,12 @@ weighted_avg as (
     select 
         item_id,
         category,
-        date_part('year', letting_date) as year,
+        date_part('year', letting_date) as letting_year,
         ( sum(cost_cents) / sum(quantity) )::bigint as weighted_avg_unit_price_cents
 
     from bids
 
-    group by item_id, category, letting_date
+    group by item_id, category, letting_year
 
     order by item_id
 
@@ -24,7 +24,7 @@ weighted_avg as (
 weighted_avg_by_year as (
 
     pivot weighted_avg
-    on year
+    on letting_year
     using first(weighted_avg_unit_price_cents)
     order by item_id, category
 
