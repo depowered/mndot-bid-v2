@@ -59,7 +59,7 @@
 				or Description. The case-insensitive search will accept partial values.
 			</P>
 			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
-				<Span italic>Search Examples</Span>
+				<P class="mb-2" weight="light" color="text-black dark:text-gray-300">Search Examples</P>
 				<List tag="ul" class="space-y-1 ml-8">
 					<Li>2575 -> All turf establishment items</Li>
 					<Li>common -> EXCAVATION - COMMON and similar</Li>
@@ -70,9 +70,6 @@
 				Items with bid records to view will have an orange button in the leftmost column. Click the
 				button to view summary statistics for that item. Items with a greater contract occurrence
 				will provide more useful statistics.
-			</P>
-			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
-				Click the tabs below the item table change the summary statistics shown.
 			</P>
 		</AccordionItem>
 		<AccordionItem>
