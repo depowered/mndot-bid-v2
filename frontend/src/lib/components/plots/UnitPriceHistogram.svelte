@@ -64,7 +64,8 @@
 	</P>
 	<P class="mt-2" weight="light" color="text-black dark:text-gray-300">
 		Note that the figure for each category is generated separately, so the auto-binning algorithm
-		may result in bins of different sizes.
+		may result in bins of different sizes. Hover over figure to show a tooltip with additional
+		details about each bin.
 	</P>
 	<div class="flex flex-col items-center">
 		<Tabs style="underline">

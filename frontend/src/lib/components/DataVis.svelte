@@ -10,7 +10,7 @@
 	};
 </script>
 
-<Tabs style="underline">
+<Tabs style="underline" class="justify-center">
 	<TabItem on:click={handleClick} open title="Weighted Average">
 		<AvgPriceTable />
 	</TabItem>

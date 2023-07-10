@@ -8,14 +8,12 @@
 <header>
 	<Navbar let:hidden let:toggle {navClass}>
 		<NavBrand href="/">
-			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+			<span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
 				MnDOT Bid Prices
 			</span>
 		</NavBrand>
 		<NavHamburger on:click={toggle} />
 		<NavUl {hidden}>
-			<NavLi href="/" active={true} class="text-lg">Home</NavLi>
-			<NavLi href="/dash" class="text-lg">Dashboard</NavLi>
 			<NavLi><DarkMode size="sm" btnclass={darkModeBtn} /></NavLi>
 		</NavUl>
 	</Navbar>
