@@ -17,11 +17,16 @@
 	const submitted = () => {
 		submittedSearchValue = searchValue.toUpperCase();
 		submittedSpecYear = specYear;
+
+		// scroll to results
+		const el = document.getElementById('item-search');
+		if (!el) return;
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	};
 </script>
 
-<form on:submit={submitted} class="flex max-w-4xl m-auto">
-	<Select items={specYears} bind:value={specYear} class="max-w-min mr-2" />
+<form on:submit|preventDefault={submitted} target="_self" class="flex max-w-4xl mx-auto">
+	<Select items={specYears} bind:value={specYear} class="max-w-[170px] mr-2" />
 	<Search
 		bind:value={searchValue}
 		placeholder="Search by Item Number or Description"

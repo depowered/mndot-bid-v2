@@ -24,6 +24,7 @@
 	"devDependencies": {
 		"@playwright/test": "^1.30.0",
 		"@sveltejs/adapter-auto": "2.0.0",
+		"@sveltejs/adapter-cloudflare": "^2.3.0",
 		"@sveltejs/kit": "^1.20.4",
 		"@typescript-eslint/eslint-plugin": "^5.52.0",
 		"@typescript-eslint/parser": "^5.52.0",
@@ -66,7 +67,9 @@
 	},
 	"dependencies": {
 		"@duckdb/duckdb-wasm": "^1.27.0",
+		"@observablehq/plot": "^0.6.9",
 		"@popperjs/core": "^2.11.8",
+		"@types/d3": "^7.4.0",
 		"tailwind-merge": "^1.13.2"
 	}
 }
