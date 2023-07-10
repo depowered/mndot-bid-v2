@@ -9,6 +9,9 @@
 	let defaultSpecYear = 2020;
 	let submittedSearchValue: string;
 	let submittedSpecYear: number;
+
+	import { getConnection } from '$lib/duckdb';
+	getConnection(); // Start async DuckDB Engine download and db setup
 </script>
 
 <section id="#description" class="mx-auto mt-8 max-w-4xl">
@@ -93,7 +96,9 @@
 			bind:submittedSearchValue
 			bind:submittedSpecYear
 		/>
-		<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
+		{#if submittedSearchValue}
+			<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
+		{/if}
 	</div>
 </section>
 
