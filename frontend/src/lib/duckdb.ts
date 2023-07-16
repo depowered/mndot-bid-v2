@@ -4,22 +4,19 @@ import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?ur
 import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
 import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
 
-import type { AsyncDuckDB } from '@duckdb/duckdb-wasm'
+import type { AsyncDuckDB, AsyncDuckDBConnection } from '@duckdb/duckdb-wasm'
 
 let db: AsyncDuckDB | null = null;
 
-const PARQUETS = {
-  items: 'prod_item_search.parquet',
-  bids: 'prod_bids.parquet',
-  itemWeightedAvgByYear: 'prod_item_weighted_avg_by_year.parquet'
+const BUCKET = 'https://r2.mndotbidprices.com'
+
+const TABLES = {
+  items: { tableName: 'prod_item_search', source: `${BUCKET}/prod_item_search.parquet` },
+  bids: { tableName: 'prod_bids', source: `${BUCKET}/prod_bids.parquet` },
+  weightedAvgByYear: { tableName: 'prod_item_weighted_avg_by_year', source: `${BUCKET}/prod_item_weighted_avg_by_year.parquet` }
 }
 
 // Setup and connect to the database
-const registerParquets = async (db: AsyncDuckDB) => {
-  for (const parquet of Object.values(PARQUETS)) {
-    await db.registerFileURL(parquet, `/${parquet}`, 4, false);
-  }
-};
 
 const initDB = async () => {
   if (db) {
@@ -44,7 +41,6 @@ const initDB = async () => {
 
   db = new duckdb.AsyncDuckDB(logger, worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
-  await registerParquets(db)
   return db;
 };
 
@@ -53,5 +49,17 @@ const getConnection = async () => {
   return db.connect();
 };
 
-export { getConnection, PARQUETS };
+const createTables = async (conn: AsyncDuckDBConnection) => {
+  for (const table of Object.values(TABLES)) {
+    const query = `CREATE TABLE ${table.tableName} AS SELECT * FROM '${table.source}'`;
+    conn.query(query);
+  }
+};
+
+const loadDB = async () => {
+  const conn = await getConnection();
+  createTables(conn);
+}
+
+export { getConnection, loadDB, TABLES };
 
