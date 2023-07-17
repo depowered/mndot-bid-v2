@@ -52,24 +52,22 @@ const initDB = async () => {
     return db;  // Return existing db if already initialized
   }
 
-  const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
-    mvp: {
-      mainModule: duckdb_wasm,
-      mainWorker: mvp_worker,
-    },
-    eh: {
-      mainModule: duckdb_wasm_eh,
-      mainWorker: eh_worker,
-    },
-  };
-  // Select a bundle based on browser checks
-  const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
-  // Instantiate the asynchronous version of DuckDB-wasm
-  const worker = new Worker(bundle.mainWorker!);
-  const logger = new duckdb.VoidLogger();
+  // Load bundles from CDN (jsdelivr)
+  const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
 
+  // Select a bundle based on browser checks
+  const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
+
+  const worker_url = URL.createObjectURL(
+    new Blob([`importScripts("${bundle.mainWorker!}");`], { type: 'text/javascript' })
+  );
+
+  // Instantiate the asynchronus version of DuckDB-Wasm
+  const worker = new Worker(worker_url);
+  const logger = new duckdb.ConsoleLogger();
   db = new duckdb.AsyncDuckDB(logger, worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+  URL.revokeObjectURL(worker_url);
 
   // Fetch and register remote parquet files
   const fileBuffers = await fetchParquets(REMOTE_PARQUETS);
