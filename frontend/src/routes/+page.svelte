@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Span, List, Li, P, AccordionItem, Accordion, Heading } from 'flowbite-svelte';
+	import { Span, List, Li, P, AccordionItem, Accordion, Heading, Spinner } from 'flowbite-svelte';
 	import ItemTable from '$lib/components/ItemTable.svelte';
 	import ItemSearch from '$lib/components/ItemSearch.svelte';
 	import DataVis from '$lib/components/DataVis.svelte';
@@ -10,8 +10,10 @@
 	let submittedSearchValue: string;
 	let submittedSpecYear: number;
 
-	// import { initDB } from '$lib/duckdb';
-	// initDB(); // Start async DuckDB Engine download and db setup
+	import { initDB } from '$lib/duckdb';
+	// Initialize the db and load data from remote parquets in an web worker
+	// Called here to get the async process started as soon as the page loads
+	const db = initDB();
 </script>
 
 <section id="#description" class="mx-auto mt-8 max-w-4xl">
@@ -96,9 +98,13 @@
 			bind:submittedSearchValue
 			bind:submittedSpecYear
 		/>
-		{#if submittedSearchValue}
+		{#await db}
+			<div class="flex items-center justify-center mt-8">
+				<Spinner size="12" />
+			</div>
+		{:then db}
 			<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
-		{/if}
+		{/await}
 	</div>
 </section>
 
