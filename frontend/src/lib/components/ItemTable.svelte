@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Table, TableBody, TableHead, TableHeadCell, Spinner, Pagination } from 'flowbite-svelte';
 	import ItemTableRow from './ItemTableRow.svelte';
-	import { getConnection, TABLES } from '$lib/duckdb';
+	import { getConnection, Parquet } from '$lib/duckdb';
 
 	export let submittedSearchValue: string;
 	export let submittedSpecYear: number;
@@ -16,7 +16,7 @@
             long_description as itemDescription,
             plan_unit_description as unit,
             contract_count as contractOccur
-        FROM ${TABLES.items.tableName}
+        FROM ${Parquet.ITEMS}
         WHERE 
             in_spec_${submittedSpecYear} = TRUE AND
             (

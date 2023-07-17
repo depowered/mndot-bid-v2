@@ -10,8 +10,8 @@
 	let submittedSearchValue: string;
 	let submittedSpecYear: number;
 
-	import { loadDB } from '$lib/duckdb';
-	loadDB(); // Start async DuckDB Engine download and db setup
+	// import { initDB } from '$lib/duckdb';
+	// initDB(); // Start async DuckDB Engine download and db setup
 </script>
 
 <section id="#description" class="mx-auto mt-8 max-w-4xl">

@@ -1,5 +1,5 @@
 import { writable, derived } from "svelte/store";
-import { getConnection, TABLES } from "./duckdb";
+import { getConnection, Parquet } from "./duckdb";
 
 export const selectedItemId = writable<string>();
 
@@ -14,7 +14,7 @@ const getAvgPriceTableData = async (itemId: string): Promise<AvgPriceTableData> 
                 ("2021" / 100)::FLOAT AS wtAvg2021, 
                 ("2022" / 100)::FLOAT AS wtAvg2022, 
                 ("2023" / 100)::FLOAT AS wtAvg2023
-            FROM ${TABLES.weightedAvgByYear.tableName}
+            FROM ${Parquet.WT_AVG_BY_YEAR}
             WHERE item_id = ?
             ORDER BY category DESC`);
   const results = await stmt.query(itemId);
@@ -38,7 +38,7 @@ const getBids = async (itemId: string): Promise<Bid[]> => {
         quantity,
         (unit_price_cents / 100) AS unitPrice,
         category
-    FROM ${TABLES.bids.tableName}
+    FROM ${Parquet.BIDS}
     WHERE item_id = ?
     ORDER BY category DESC`);
   const results = await stmt.query(itemId);

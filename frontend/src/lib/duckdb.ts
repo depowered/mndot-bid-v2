@@ -4,19 +4,48 @@ import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?ur
 import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
 import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
 
-import type { AsyncDuckDB, AsyncDuckDBConnection } from '@duckdb/duckdb-wasm'
-
-let db: AsyncDuckDB | null = null;
+import type { AsyncDuckDB } from '@duckdb/duckdb-wasm'
 
 const BUCKET = 'https://r2.mndotbidprices.com'
 
-const TABLES = {
-  items: { tableName: 'prod_item_search', source: `${BUCKET}/prod_item_search.parquet` },
-  bids: { tableName: 'prod_bids', source: `${BUCKET}/prod_bids.parquet` },
-  weightedAvgByYear: { tableName: 'prod_item_weighted_avg_by_year', source: `${BUCKET}/prod_item_weighted_avg_by_year.parquet` }
+enum Parquet {
+  ITEMS = 'prod_item_search.parquet',
+  BIDS = 'prod_bids.parquet',
+  WT_AVG_BY_YEAR = 'prod_item_weighted_avg_by_year.parquet',
 }
 
-// Setup and connect to the database
+type RemoteParquet = {
+  name: string;
+  url: string;
+};
+
+const REMOTE_PARQUETS: RemoteParquet[] = [
+  { name: Parquet.ITEMS, url: `${BUCKET}/${Parquet.ITEMS}` },
+  { name: Parquet.BIDS, url: `${BUCKET}/${Parquet.BIDS}` },
+  { name: Parquet.WT_AVG_BY_YEAR, url: `${BUCKET}/${Parquet.WT_AVG_BY_YEAR}` }
+]
+
+type FileBuffer = {
+  name: string;
+  buffer: Uint8Array;
+}
+
+const fetchParquets = async (parquets: RemoteParquet[]): Promise<FileBuffer[]> => {
+  return Promise.all(parquets.map(async (p) => {
+    const res = await fetch(p.url);
+    return {
+      name: p.name,
+      buffer: new Uint8Array(await res.arrayBuffer())
+    };
+  }))
+}
+
+const registerParquets = async (db: AsyncDuckDB, fileBuffers: FileBuffer[]) => {
+  fileBuffers.forEach((f) => { db.registerFileBuffer(f.name, f.buffer) });
+}
+
+// Declare globally so that initDB can short circuit if the database has been initialized
+let db: AsyncDuckDB | null = null;
 
 const initDB = async () => {
   if (db) {
@@ -41,6 +70,11 @@ const initDB = async () => {
 
   db = new duckdb.AsyncDuckDB(logger, worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+
+  // Fetch and register remote parquet files
+  const fileBuffers = await fetchParquets(REMOTE_PARQUETS);
+  await registerParquets(db, fileBuffers);
+
   return db;
 };
 
@@ -49,17 +83,6 @@ const getConnection = async () => {
   return db.connect();
 };
 
-const createTables = async (conn: AsyncDuckDBConnection) => {
-  for (const table of Object.values(TABLES)) {
-    const query = `CREATE TABLE ${table.tableName} AS SELECT * FROM '${table.source}'`;
-    conn.query(query);
-  }
-};
 
-const loadDB = async () => {
-  const conn = await getConnection();
-  createTables(conn);
-}
-
-export { getConnection, loadDB, TABLES };
+export { initDB, getConnection, Parquet };
 
