@@ -4,7 +4,7 @@ from src.abstract.cli import abstract
 from src.database.cli import database
 from src.item.cli import item
 from src.logging import configure_logging, log_command
-from src.production.cli import production
+from src.s3.cli import s3
 
 
 @click.group(help="Run data pipeline processes")
@@ -16,7 +16,7 @@ def cli() -> None:
 cli.add_command(database)
 cli.add_command(abstract)
 cli.add_command(item)
-cli.add_command(production)
+cli.add_command(s3)
 
 if __name__ == "__main__":
     cli()

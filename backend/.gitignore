@@ -1,3 +1,6 @@
+# rclone config
+rclone.conf
+
 # Data directory
 data/**
 !data/**/

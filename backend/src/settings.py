@@ -1,13 +1,11 @@
 from pathlib import Path
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
-
     log_dir: Path = PROJECT_DIR / "logs/"
     data_dir: Path = PROJECT_DIR / "data/"
 
@@ -38,7 +36,12 @@ class Settings(BaseSettings):
     dbt_source_dir: Path = data_dir / "interim/dbt_source/"
 
     # S3
-    endpoint_url: str = ""  # Set ENDPOINT_URL env variable
-    aws_access_key_id: str = ""  # Set AWS_ACCESS_KEY_ID env variable
-    aws_secret_access_key: str = ""  # Set AWS_SECRET_ACCESS_KEY env variable
-    prod_parquet_dir: Path = data_dir / "processed/"
+    # Create interactively with rclone cli
+    rclone_config: Path = PROJECT_DIR / "rclone.conf"
+    rclone_remote: str = "CloudflareR2"
+
+    dev_bucket: str = "mndot-bid-dev"
+    dev_sync_dir: Path = data_dir
+
+    prod_bucket: str = "mndot-bid"
+    prod_sync_dir: Path = data_dir / "processed/"
