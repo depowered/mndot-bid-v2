@@ -1,11 +1,14 @@
 from pathlib import Path
 
-from pydantic import BaseSettings, Field, HttpUrl
+from pydantic import Field, HttpUrl
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+
     log_dir: Path = PROJECT_DIR / "logs/"
     data_dir: Path = PROJECT_DIR / "data/"
 
@@ -31,4 +34,11 @@ class Settings(BaseSettings):
     )
 
     # Data Build Tool (dbt)
+    dbt_project_dir: Path = PROJECT_DIR / "dbt/mndot_bid/"
     dbt_source_dir: Path = data_dir / "interim/dbt_source/"
+
+    # S3
+    endpoint_url: str = ""  # Set ENDPOINT_URL env variable
+    aws_access_key_id: str = ""  # Set AWS_ACCESS_KEY_ID env variable
+    aws_secret_access_key: str = ""  # Set AWS_SECRET_ACCESS_KEY env variable
+    prod_parquet_dir: Path = data_dir / "processed/"
