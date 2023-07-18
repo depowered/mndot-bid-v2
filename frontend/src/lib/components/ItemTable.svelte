@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Table, TableBody, TableHead, TableHeadCell, Spinner, Pagination } from 'flowbite-svelte';
 	import ItemTableRow from './ItemTableRow.svelte';
-	import { getConnection, PARQUETS } from '$lib/duckdb';
+	import { getConnection, Parquet } from '$lib/duckdb';
 
 	export let submittedSearchValue: string;
 	export let submittedSpecYear: number;
@@ -16,7 +16,7 @@
             long_description as itemDescription,
             plan_unit_description as unit,
             contract_count as contractOccur
-        FROM parquet_scan(${PARQUETS.items})
+        FROM ${Parquet.ITEMS}
         WHERE 
             in_spec_${submittedSpecYear} = TRUE AND
             (
@@ -26,7 +26,11 @@
         ORDER BY item_number`;
 	};
 
-	const getRecordCount = async (subQuery: string): Promise<number> => {
+	const getRecordCount = async (
+		submittedSearchValue: string,
+		submittedSpecYear: number
+	): Promise<number> => {
+		const subQuery = prepareSubQuery(submittedSearchValue, submittedSpecYear);
 		const conn = await getConnection();
 		const q = `SELECT COUNT(*) AS count FROM (${subQuery})`;
 		const results = await conn.query(q);
@@ -34,28 +38,28 @@
 	};
 
 	const getPaginatedRows = async (
-		subQuery: string,
+		submittedSearchValue: string,
+		submittedSpecYear: number,
 		limit: number,
 		offset: number
 	): Promise<ItemRowData[]> => {
+		const subQuery = prepareSubQuery(submittedSearchValue, submittedSpecYear);
 		const conn = await getConnection();
 		const q = `SELECT * FROM (${subQuery}) LIMIT ${limit} OFFSET ${offset}`;
 		const results = await conn.query(q);
 		return results.toArray();
 	};
 
-	$: subQuery = prepareSubQuery(submittedSearchValue, submittedSpecYear);
-
 	// Table content
-	$: rows = getPaginatedRows(subQuery, limit, offset);
 	const headers = ['View Bids', 'Item Number', 'Item Description', 'Unit', 'Contract Occurrences'];
+	$: rows = getPaginatedRows(submittedSearchValue, submittedSpecYear, limit, offset);
 
 	// Pagination
 	// Reset the value of offset on new search to reset paging
 	const resetOffset = (submittedSearchValue: string) => 0;
 	$: offset = resetOffset(submittedSearchValue);
 
-	$: recordCount = getRecordCount(subQuery);
+	$: recordCount = getRecordCount(submittedSearchValue, submittedSpecYear);
 	const previous = () => {
 		offset - limit >= limit ? (offset -= limit) : (offset = 0);
 	};

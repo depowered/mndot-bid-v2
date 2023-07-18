@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import click
 
 from src.abstract.pipeline import pipeline
@@ -13,7 +15,13 @@ def abstract() -> None:
 
 
 @abstract.command()
-@click.option("--year", type=int, required=True, help="Bid opening year")
+@click.option(
+    "--year",
+    type=int,
+    required=True,
+    default=datetime.now().year,
+    help="Bid opening year",
+)
 def run_pipeline(year: int) -> None:
     """Runs the processing pipeline"""
     settings = Settings()
