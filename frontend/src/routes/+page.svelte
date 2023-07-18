@@ -103,7 +103,9 @@
 				<Spinner size="12" />
 			</div>
 		{:then db}
-			<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
+			{#if submittedSearchValue}
+				<ItemTable bind:submittedSearchValue bind:submittedSpecYear />
+			{/if}
 		{/await}
 	</div>
 </section>
