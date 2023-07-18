@@ -31,6 +31,16 @@ def publish() -> None:
 
 
 @production.command()
+def refresh_and_publish() -> None:
+    """Runs refresh and publish commands sequentially"""
+    settings = Settings()
+    pipeline(settings, datetime.now().year)
+    os.chdir(settings.dbt_project_dir)
+    run(["dbt", "run"])
+    put_prod_parquets(settings)
+
+
+@production.command()
 def list_objects() -> None:
     """Lists objects in s3 bucket"""
     settings = Settings()
