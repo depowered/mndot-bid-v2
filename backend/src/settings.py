@@ -10,12 +10,23 @@ class Settings(BaseSettings):
     data_dir: Path = PROJECT_DIR / "data/"
 
     # Database
-    db: Path = data_dir / "clean_datastore.duckdb"
+    @property
+    def db(self) -> Path:
+        return self.data_dir / "clean_datastore.duckdb"
 
     # Abstract processing
-    raw_abstract_dir: Path = data_dir / "raw/abstracts/"
-    split_abstract_dir: Path = data_dir / "interim/split_abstracts/"
-    clean_abstract_dir: Path = data_dir / "interim/clean_abstracts/"
+    @property
+    def raw_abstract_dir(self) -> Path:
+        return self.data_dir / "raw/abstracts/"
+
+    @property
+    def split_abstract_dir(self) -> Path:
+        return self.data_dir / "interim/split_abstracts/"
+
+    @property
+    def clean_abstract_dir(self) -> Path:
+        return self.data_dir / "interim/clean_abstracts/"
+
     mndot_abstracts_app: str = (
         "https://transport.dot.state.mn.us/PostLetting/Abstract.aspx"
     )
@@ -25,15 +36,24 @@ class Settings(BaseSettings):
     )
 
     # Item list processing
-    raw_item_list_dir: Path = data_dir / "raw/item_lists/"
-    clean_item_list_dir: Path = data_dir / "interim/clean_item_lists/"
+    @property
+    def raw_item_list_dir(self) -> Path:
+        return self.data_dir / "raw/item_lists/"
+
+    @property
+    def clean_item_list_dir(self) -> Path:
+        return self.data_dir / "interim/clean_item_lists/"
+
     download_item_list_url: str = (
         "https://transport.dot.state.mn.us/Reference/refItem.aspx"
     )
 
     # Data Build Tool (dbt)
     dbt_project_dir: Path = PROJECT_DIR / "dbt/mndot_bid/"
-    dbt_source_dir: Path = data_dir / "interim/dbt_source/"
+
+    @property
+    def dbt_source_dir(self) -> Path:
+        return self.data_dir / "interim/dbt_source/"
 
     # S3
     # Create interactively with rclone cli
@@ -41,7 +61,15 @@ class Settings(BaseSettings):
     rclone_remote: str = "CloudflareR2"
 
     dev_bucket: str = "mndot-bid-dev"
-    dev_sync_dir: Path = data_dir
+
+    @property
+    def dev_sync_dir(self) -> Path:
+        """Directory to sync to and from the dev_bucket"""
+        return self.data_dir
 
     prod_bucket: str = "mndot-bid"
-    prod_sync_dir: Path = data_dir / "processed/"
+
+    @property
+    def prod_sync_dir(self) -> Path:
+        """Directory to sync to and from the prod_bucket"""
+        return self.data_dir / "processed/"
