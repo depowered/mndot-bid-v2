@@ -6,6 +6,7 @@
 
 [![item search preview](static/item-search-preview.png)](https://mndotbidprices.com)
 </div>
+
 ## Introduction
 
 Estimating the cost of a proposed construction project is often a difficult task for engineers. The factors impacting the cost of each unit of work are many and difficult to fully account for. Engineers often rely on cost data from past projects to inform their estimates. Sources such as MnDOT's own [Average Bid Price](https://edocs-public.dot.state.mn.us/edocs_public/DMResultSet/Urlsearch?columns=docnumber,docname,app_id&folderid=28521650) documents help with this, but often leave the user wanting for additional detail and recency.
