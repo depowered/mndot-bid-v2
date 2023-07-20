@@ -21,9 +21,9 @@ A hosted version of the dashboard is available at [mndotbidprices.com](https://m
 
 The dashboard (frontend) and data pipeline (backend) can be installed and hosted locally. There is no direct communication between the frontend and backend, so they do not need to be installed or ran concurrently. See the READMEs in the respective directories for installation instructions
 
-[Frontend README](frontend/)
+[Frontend README](https://github.com/depowered/mndot-bid-v2/frontend/)
 
-[Backend README](backend/)
+[Backend README](https://github.com/depowered/mndot-bid-v2/backend/)
 
 ## [License](LICENSE)
 
