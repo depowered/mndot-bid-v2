@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mndot-bid-backend"
 version = "0.1.0"
-description = ""
+description = "ETL pipeline for mndot-bid project"
 authors = ["Devin Power <dpwr16@gmail.com>"]
 license = "MIT"
 packages = [{include = "src"}]
