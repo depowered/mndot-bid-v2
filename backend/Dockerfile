@@ -1,7 +1,6 @@
 #
 # Dockerfile based on https://github.com/bmaingret/coach-planner/tree/main
 #
-
 ARG APP_NAME=mndot_bid
 ARG APP_PATH=/opt/$APP_NAME
 ARG PYTHON_VERSION=3.11.4
@@ -32,34 +31,6 @@ RUN curl https://rclone.org/install.sh | bash -
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
-# Import our project files
-WORKDIR $APP_PATH
-COPY poetry.lock pyproject.toml .
-
-# Install core dependencies (not project, not dev dependencies)
-RUN poetry install --no-root --without dev
-
-#
-# Stage: development
-#
-FROM staging as development
-ARG APP_NAME
-ARG APP_PATH
-
-WORKDIR $APP_PATH
-
-# Install project with dev dependencies
-COPY . .
-RUN poetry install
-
-# Expose a volume mount point so that data is presisted between runs
-VOLUME $APP_PATH/data
-
-# Set default shell for poetry
-ENV SHELL=/bin/bash
-
-ENTRYPOINT ["poetry", "shell"]
-
 #
 # Stage: production
 #
@@ -69,16 +40,28 @@ ARG APP_PATH
 
 WORKDIR $APP_PATH
 
-# Install project without development dependencies
-COPY . .
+# Install non-dev dependencies
+COPY poetry.lock pyproject.toml .
+RUN poetry install --no-root --no-directory --without dev
+
+# Install project
+COPY dbt/ ./dbt
+COPY logs/ ./logs 
+COPY scripts/ ./scripts
+COPY src/ ./src
 RUN poetry install --without dev
 
-# Expose a volume mount point so that data is presisted between runs
-VOLUME $APP_PATH/data
+# Expose a volume mount point for persisting data between runs
+# External data directory is not copied to keep image independent from data state
+RUN mkdir ./data
+VOLUME ./data
+
+# Expose a volume mount point for the rclone config file
+# Rclone expects the config at /root/.config/rclone/
+RUN mkdir -p /root/.config/rclone/
+VOLUME /root/.config/rclone/
 
 # Set default shell for poetry
 ENV SHELL=/bin/bash
 
-RUN chmod +x ./scripts/update_prod_parquets.sh
-ENTRYPOINT ["poetry", "run"]
-CMD ["./scripts/update_prod_parquets.sh"]
+ENTRYPOINT ["poetry", "shell"]

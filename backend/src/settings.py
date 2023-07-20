@@ -56,9 +56,7 @@ class Settings(BaseSettings):
         return self.data_dir / "interim/dbt_source/"
 
     # S3
-    # Create interactively with rclone cli
-    rclone_config: Path = PROJECT_DIR / "rclone.conf"
-    rclone_remote: str = "CloudflareR2"
+    rclone_remote: str = "mndotbids3"
 
     dev_bucket: str = "mndot-bid-dev"
 
