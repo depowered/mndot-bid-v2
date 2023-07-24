@@ -61,6 +61,8 @@ mndot-bid-cli database create
 mndot-bid-cli item run-pipeline
 
 # Run ETL pipeline to ingest abstracts for the current year
+# Note: The CLEAN stage is the pipeline's bottleneck and may take 1-2 minutes 
+#       to complete when processing a whole year (100-200 abstracts)
 mndot-bid-cli abstract run-pipeline
 
 # Additional years can be loaded by providing the --year option
