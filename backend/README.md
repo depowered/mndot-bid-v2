@@ -72,6 +72,12 @@ mndot-bid-cli abstract run-pipeline --year 2022
 Once data is loaded into the `clean_datastore.duckdb` database, it can be transformed further using dbt to produce the production parquets used in the frontend dashboard.
 
 ```bash
+# Export the cleaned tables to parquets to ./data/interim/dbt_source
+mndot-bid-cli database dump-dbt-source
+
+# Install dbt_utils dependency
+mndot-bid-cli dbt deps
+
 # Create production parquets and write to ./data/processed/
 mndot-bid-cli dbt run
 
@@ -86,6 +92,9 @@ The ETL pipelines track stage execution for each sourcefile to avoid unnecessary
 ```bash
 # Download and process any newly published abstracts
 mndot-bid-cli abstract run-pipeline
+
+# Re-export the dbt source parquets
+mndot-bid-cli database dump-dbt-source
 
 # Recreate and validate production parquets at ./data/processed/
 mndot-bid-cli dbt run
