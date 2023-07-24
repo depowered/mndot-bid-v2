@@ -46,6 +46,8 @@ def run(settings: Settings) -> None:
     not_run = current_stage_not_run_ids(con=con)
     ids = {id for id in not_run if id in ready}
 
+    settings.split_abstract_dir.mkdir(parents=True, exist_ok=True)
+
     logger.info(f"SPLIT: Splitting {len(ids)} Abstract CSVs")
     for contract_id in ids:
         try:
