@@ -24,7 +24,7 @@ s3        Manage s3 buckets
 
 ## Installation
 
-Make sure you have [`docker`](https://docs.docker.com/get-docker/) installed.
+Make sure you have <a href="https://docs.docker.com/get-docker/" target="_blank">`docker`</a> installed.
 
 ```bash
 # Clone the repository
@@ -57,12 +57,12 @@ To initialize the project, use the cli to create a database `clean_datastore.duc
 # Create an empty database: ./data/clean_datastore.duckdb
 mndot-bid-cli database create
 
-# Run ETL pipeline to ingest item lists
+# Run an ETL pipeline to ingest item lists
 mndot-bid-cli item run-pipeline
 
-# Run ETL pipeline to ingest abstracts for the current year
-# Note: The CLEAN stage is the pipeline's bottleneck and may take 1-2 minutes 
-#       to complete when processing a whole year (100-200 abstracts)
+# Run an ETL pipeline to ingest abstracts for the current year
+# NOTE: The CLEAN stage is the pipeline's bottleneck and may take a few minutes 
+#       to complete when processing a whole year's worth of data (100+ abstracts)
 mndot-bid-cli abstract run-pipeline
 
 # Additional years can be loaded by providing the --year option
@@ -71,13 +71,13 @@ mndot-bid-cli abstract run-pipeline --year 2022
 
 ### Create Production Parquets
 
-Once data is loaded into the `clean_datastore.duckdb` database, it can be transformed further using dbt to produce the production parquets used in the frontend dashboard.
+Once data is loaded into the `clean_datastore.duckdb` database, it can be transformed further using <a href="https://www.getdbt.com/" target="_blank">`dbt`</a> to produce the production parquets used in the frontend dashboard.
 
 ```bash
 # Export the cleaned tables to parquets to ./data/interim/dbt_source
 mndot-bid-cli database dump-dbt-source
 
-# Install dbt_utils dependency
+# Install the dbt_utils dependency
 mndot-bid-cli dbt deps
 
 # Create production parquets and write to ./data/processed/

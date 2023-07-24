@@ -1,10 +1,20 @@
-# Sveltekit + duckdb-WASM = Lightning fast dashboard
+<div align="center">
 
-A Sveltekit application that uses a [web assembly build of duckdb](https://duckdb.org/docs/api/wasm/overview) to power analytical queries in the browser. All results, including search and bid data statistics, are computed in the browser using the duckdb-WASM engine allowing queries to be returned in tens of milliseconds with no network latency.
+# mndotbidprices.com
+
+*Sveltekit + DuckDB-WASM = Lightning fast dashboard*
+
+</div>
+
+## Introduction
+
+A Sveltekit application that uses a <a href="https://duckdb.org/docs/api/wasm/overview" target="_blank">web assembly build of DuckDB</a> to power analytical queries in the browser. All results, including search and bid data statistics, are computed in the browser using the DuckDB-WASM engine. Queries are executed at C-like speeds, returning results in tens of milliseconds with zero network latency.
+
+The application is based on a combination of the <a href="https://github.com/shinokada/flowbite-svelte-starter" target="_blank">Flowbite-Svelte Starter</a> and the <a href="https://github.com/duckdb-wasm-examples/sveltekit-typescript/tree/main" target="_blank">SvelteKit-Typescript DuckDB-WASM demo</a>.
 
 ## Installation
 
-Make sure you have [`node`](https://nodejs.org/en/download) (Version `16` or later) installed.
+Make sure you have <a href="https://nodejs.org/en/download" target="_blank">`node`</a> (Version `16` or later) installed.
 
 ```bash
 # Clone the repository
