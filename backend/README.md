@@ -37,9 +37,16 @@ cd mndot-bid-v2/backend
 docker build --tag mndot-bid-cli .
 
 # Run an interactive shell within the container
-# The volume option (`-v`) binds the local data directory to the 
-# data directory inside the container. This persists data artifacts
-# locally between image runs.
+# To persist data created by the cli, a volume mount is exposed at:
+#    /opt/mndot_bid/data.
+
+# Create and mount a docker volume (recommended)
+docker volume create mndot-bid-data
+docker run \
+    -v mndot-bid-data:/opt/mndot_bid/data \
+    -it mndot-bid-cli
+
+# Or bind mount directly to the local data directory
 docker run \
     -v ./data:/opt/mndot_bid/data \
     -it mndot-bid-cli
