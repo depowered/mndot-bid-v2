@@ -64,11 +64,11 @@
 				or Description. The case-insensitive search will accept partial values.
 			</P>
 			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
-				<P class="mb-2" weight="light" color="text-black dark:text-gray-300">Search Examples</P>
+				<P class="mb-2" weight="semibold" color="text-black dark:text-gray-300">Search Examples</P>
 				<List tag="ul" class="space-y-1 ml-8">
-					<Li>2575 -> All turf establishment items</Li>
-					<Li>common -> EXCAVATION - COMMON and similar</Li>
-					<Li>24" rc pipe sewer -> 24 inch reinforced concrete storm sewer items</Li>
+					<Li><Span>2575</Span> &#8212 All turf establishment items</Li>
+					<Li><Span>common</Span> &#8212 EXCAVATION - COMMON and similar</Li>
+					<Li><Span>24" rc pipe sewer</Span> &#8212 24" reinforced concrete storm sewer items</Li>
 				</List>
 			</P>
 			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
