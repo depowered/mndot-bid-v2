@@ -69,11 +69,7 @@
 	};
 </script>
 
-{#await rows}
-	<div class="flex items-center justify-center mt-8">
-		<Spinner size="12" />
-	</div>
-{:then rows}
+{#await rows then rows}
 	<Table hoverable class="mt-8">
 		<TableHead theadClass="text-sm uppercase">
 			{#each headers as header}
