@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Button, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
-	import { selectedItemId } from '$lib/store';
+	import { selectedItemRowData } from '$lib/store';
 
 	export let rowData: ItemRowData;
 
 	const handleClick = () => {
-		selectedItemId.set(rowData.id);
+		selectedItemRowData.set(rowData);
 
 		// scroll to results
 		const el = document.getElementById('view-bids');

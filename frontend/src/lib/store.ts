@@ -1,7 +1,7 @@
 import { writable, derived } from "svelte/store";
 import { getConnection, Parquet } from "./duckdb";
 
-export const selectedItemId = writable<string>();
+export const selectedItemRowData = writable<ItemRowData>();
 
 const getAvgPriceTableData = async (itemId: string): Promise<AvgPriceTableData> => {
   const conn = await getConnection();
@@ -24,8 +24,8 @@ const getAvgPriceTableData = async (itemId: string): Promise<AvgPriceTableData> 
   };
 };
 
-export const weightedAvgPrices = derived(selectedItemId, async ($selectedItemId) => {
-  return await getAvgPriceTableData($selectedItemId);
+export const weightedAvgPrices = derived(selectedItemRowData, async ($selectedItemRowData) => {
+  return await getAvgPriceTableData($selectedItemRowData.id);
 })
 
 const getBids = async (itemId: string): Promise<Bid[]> => {
@@ -45,6 +45,6 @@ const getBids = async (itemId: string): Promise<Bid[]> => {
   return results.toArray();
 }
 
-export const bids = derived(selectedItemId, async ($selectedItemId) => {
-  return await getBids($selectedItemId)
+export const bids = derived(selectedItemRowData, async ($selectedItemRowData) => {
+  return await getBids($selectedItemRowData.id)
 })

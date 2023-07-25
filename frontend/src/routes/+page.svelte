@@ -3,7 +3,7 @@
 	import ItemTable from '$lib/components/ItemTable.svelte';
 	import ItemSearch from '$lib/components/ItemSearch.svelte';
 	import DataVis from '$lib/components/DataVis.svelte';
-	import { selectedItemId } from '$lib/store';
+	import { selectedItemRowData } from '$lib/store';
 
 	let defaultSearchValue = '';
 	let defaultSpecYear = 2020;
@@ -112,8 +112,9 @@
 
 <section id="view-bids" class="mt-16 mb-24 max-w-4xl mx-auto" style="min-height: 600px;">
 	<div class="flex flex-col text-center">
-		{#if $selectedItemId}
+		{#if $selectedItemRowData}
 			<Heading tag="h2" customSize="text-3xl" class="mb-4">Bid Data Summary</Heading>
+			<Span>{$selectedItemRowData.itemNumber} - {$selectedItemRowData.itemDescription}</Span>
 			<DataVis />
 		{/if}
 	</div>
