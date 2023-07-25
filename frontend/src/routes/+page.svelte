@@ -110,7 +110,7 @@
 	</div>
 </section>
 
-<section id="view-bids" class="mt-16 mb-24 max-w-4xl mx-auto h-[600px]">
+<section id="view-bids" class="mt-16 mb-24 max-w-4xl mx-auto" style="min-height: 600px;">
 	<div class="flex flex-col text-center">
 		{#if $selectedItemId}
 			<Heading tag="h2" customSize="text-3xl" class="mb-4">Bid Data Summary</Heading>

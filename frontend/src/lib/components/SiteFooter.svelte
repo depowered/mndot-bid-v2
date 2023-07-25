@@ -2,7 +2,7 @@
 	import { Footer, FooterCopyright, FooterLinkGroup, FooterLink } from 'flowbite-svelte';
 </script>
 
-<Footer>
+<Footer class="bg-gray-100 dark:bg-gray-800">
 	<FooterCopyright
 		href="https://www.linkedin.com/in/devin-power/"
 		by="Devin Power"
