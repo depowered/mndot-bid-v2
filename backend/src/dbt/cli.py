@@ -12,6 +12,14 @@ def dbt() -> None:
 
 
 @dbt.command()
+def deps() -> None:
+    """Alias for `dbt deps` from dbt project directory"""
+    settings = Settings()
+    os.chdir(settings.dbt_project_dir)
+    subprocess.run(["dbt", "deps"])
+
+
+@dbt.command()
 def run() -> None:
     """Alias for `dbt run` from dbt project directory"""
     settings = Settings()

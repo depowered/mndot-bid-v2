@@ -3,7 +3,7 @@
 	import ItemTable from '$lib/components/ItemTable.svelte';
 	import ItemSearch from '$lib/components/ItemSearch.svelte';
 	import DataVis from '$lib/components/DataVis.svelte';
-	import { selectedItemId } from '$lib/store';
+	import { selectedItemRowData } from '$lib/store';
 
 	let defaultSearchValue = '';
 	let defaultSpecYear = 2020;
@@ -64,11 +64,11 @@
 				or Description. The case-insensitive search will accept partial values.
 			</P>
 			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
-				<P class="mb-2" weight="light" color="text-black dark:text-gray-300">Search Examples</P>
+				<P class="mb-2" weight="semibold" color="text-black dark:text-gray-300">Search Examples</P>
 				<List tag="ul" class="space-y-1 ml-8">
-					<Li>2575 -> All turf establishment items</Li>
-					<Li>common -> EXCAVATION - COMMON and similar</Li>
-					<Li>24" rc pipe sewer -> 24 inch reinforced concrete storm sewer items</Li>
+					<Li><Span>2575</Span> &#8212 All turf establishment items</Li>
+					<Li><Span>common</Span> &#8212 EXCAVATION - COMMON and similar</Li>
+					<Li><Span>24" rc pipe sewer</Span> &#8212 24" reinforced concrete storm sewer items</Li>
 				</List>
 			</P>
 			<P class="mb-2" weight="light" color="text-black dark:text-gray-300">
@@ -110,10 +110,11 @@
 	</div>
 </section>
 
-<section id="view-bids" class="mt-16 mb-24 max-w-4xl mx-auto h-[600px]">
+<section id="view-bids" class="mt-16 mb-24 max-w-4xl mx-auto" style="min-height: 600px;">
 	<div class="flex flex-col text-center">
-		{#if $selectedItemId}
+		{#if $selectedItemRowData}
 			<Heading tag="h2" customSize="text-3xl" class="mb-4">Bid Data Summary</Heading>
+			<Span>{$selectedItemRowData.itemNumber} - {$selectedItemRowData.itemDescription}</Span>
 			<DataVis />
 		{/if}
 	</div>
