@@ -10,8 +10,11 @@ def sync_to_s3(
     subprocess.run(
         [
             "rclone",
-            "--progress",
             "sync",
+            "--progress",
+            "--fast-list",
+            "--update",
+            "--use-server-modtime",
             f"{source}",
             f"{destination}",
         ]
@@ -26,8 +29,11 @@ def sync_from_s3(
     subprocess.run(
         [
             "rclone",
-            "--progress",
             "sync",
+            "--progress",
+            "--fast-list",
+            "--update",
+            "--use-server-modtime",
             f"{source}",
             f"{destination}",
         ]
