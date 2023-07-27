@@ -2,17 +2,18 @@
 
 The following describes how to setup a container that is fully configured to maintain production data via syncing to and from S3 buckets.
 
-**REQUIRES**
+**REQUIRES:**
 
 - S3 compliant object storage provider with two buckets: `mndot-bid` and `mndot-bid-dev`
-- API Key with read & write access to the buckets
+- Credentials with read & write access to the buckets
 
 ## Build create volumes and build container
 
 ```bash
-# Create volumes to store the project data and rclone configuration
+# Create volumes to store the project data, rclone configuration, and logs
 docker volume create mndot-bid-data
 docker volume create mndot-bid-config
+docker volume create mndot-bid-logs
 
 # Build the docker image
 docker build --tag mndot-bid-cli .
@@ -25,6 +26,7 @@ docker build --tag mndot-bid-cli .
 docker run \
     -v mndot-bid-data:/opt/mndot_bid/data \
     -v mndot-bid-config:/root/.config/rclone/ \
+    -v mndot-bid-logs:/opt/mndot_bid/logs \
     -it mndot-bid-cli
 
 # Configure rclone via the interactive terminal interface
@@ -49,6 +51,7 @@ exit
 docker run \
     -v mndot-bid-data:/opt/mndot_bid/data \
     -v mndot-bid-config:/root/.config/rclone/ \
+    -v mndot-bid-logs:/opt/mndot_bid/logs \
     mndot-bid-cli \
     /opt/mndot_bid/scripts/update_prod_parquets.sh
 ```
