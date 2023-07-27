@@ -64,4 +64,5 @@ VOLUME /root/.config/rclone/
 # Set default shell for poetry
 ENV SHELL=/bin/bash
 
-ENTRYPOINT ["poetry", "shell"]
+ENTRYPOINT ["poetry", "run"]
+CMD ["poetry", "shell"]
