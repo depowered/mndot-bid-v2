@@ -4,7 +4,6 @@
 mndot-bid-cli item run-pipeline
 mndot-bid-cli abstract run-pipeline
 mndot-bid-cli database dump-dbt-source
-mndot-bid-cli dbt deps
 mndot-bid-cli dbt run
 mndot-bid-cli s3 sync-dev-to-s3
 mndot-bid-cli s3 sync-prod-to-s3

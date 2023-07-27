@@ -64,5 +64,8 @@ VOLUME /root/.config/rclone/
 # Set default shell for poetry
 ENV SHELL=/bin/bash
 
+# Install dbt plugins
+RUN poetry run mndot-bid-cli dbt deps
+
 ENTRYPOINT ["poetry", "run"]
 CMD ["poetry", "shell"]
