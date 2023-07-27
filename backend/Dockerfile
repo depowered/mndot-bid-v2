@@ -61,7 +61,14 @@ VOLUME ./data
 RUN mkdir -p /root/.config/rclone/
 VOLUME /root/.config/rclone/
 
+# Expose a volume mount point for the rclone config file
+VOLUME ./logs
+
 # Set default shell for poetry
 ENV SHELL=/bin/bash
 
-ENTRYPOINT ["poetry", "shell"]
+# Install dbt plugins
+RUN poetry run mndot-bid-cli dbt deps
+
+ENTRYPOINT ["poetry", "run"]
+CMD ["poetry", "shell"]
