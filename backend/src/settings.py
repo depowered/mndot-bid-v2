@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 
